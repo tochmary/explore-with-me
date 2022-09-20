@@ -3,21 +3,6 @@ version: '3.8'
 
 # имена и описания контейнеров, которые должны быть развёрнуты
 services:
-  gateway:
-    build:
-      dockerfile: Dockerfile
-      context: ./gateway
-    image: ewm_gateway_image
-    container_name: ewm_gateway_container
-    ports:
-      - "7070:7070"
-    depends_on:
-      - main-service
-    environment:
-      - EWM_MAIN_SERVICE_URL=http://server:8080
-    networks:
-      - ewm-net
-
   main-service:
     build:
       dockerfile: Dockerfile

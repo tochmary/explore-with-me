@@ -23,7 +23,6 @@
     </properties>
 
     <modules>
-        <module>gateway</module>
         <module>main-service</module>
         <module>stats-service</module>
     </modules>
@@ -82,5 +81,4 @@
             </plugins>
         </pluginManagement>
     </build>
-
 </project>
