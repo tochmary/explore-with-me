@@ -1,0 +1,73 @@
+# версия Docker Compose
+version: '3.8'
+
+# имена и описания контейнеров, которые должны быть развёрнуты
+services:
+  gateway:
+    build:
+      dockerfile: Dockerfile
+      context: ./gateway
+    image: ewm_gateway_image
+    container_name: ewm_gateway_container
+    ports:
+      - "7070:7070"
+    depends_on:
+      - main-service
+    environment:
+      - EWM_MAIN_SERVICE_URL=http://server:8080
+    networks:
+      - ewm-net
+
+  main-service:
+    build:
+      dockerfile: Dockerfile
+      context: ./main-service
+    image: ewm_main-service_image
+    container_name: ewm_main-service_container
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/ewm
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=user
+      - EWM_STATS_SERVICE_URL=http://server:9090
+    networks:
+      - ewm-net
+
+  stats-service:
+    build:
+      dockerfile: Dockerfile
+      context: ./stats-service
+    image: ewm_stats-service_image
+    container_name: ewm_stats-service_container
+    ports:
+      - "9090:9090"
+    depends_on:
+      - db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/ewm
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=user
+    networks:
+      - ewm-net
+
+  # описание контейнера db
+  db:
+    # образ, из которого должен быть запущен контейнер
+    image: postgres:13.7-alpine
+    container_name: ewm_db_container
+    ports:
+      - "6541:5432"
+    volumes:
+      - /var/lib/postgresql/data/
+    environment:
+      - POSTGRES_DB=ewm
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=user
+    networks:
+      - ewm-net
+networks:
+  ewm-net:
+    driver: bridge
