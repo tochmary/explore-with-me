@@ -15,10 +15,10 @@ public interface EventRepository extends JpaRepository<Event, Long> {
             "from Event as e " +
             "where e.eventDate between :range_start and :range_end " +
             "and e.initiator.id in :users " +
-            "and e.category.id in :categories ")
-    Page<Event> getEvents(List<Integer> users,
+            "and e.category.id in :categories")
+    Page<Event> getEvents(@Param("users") List<Integer> users,
                           List<String> states,
-                          List<Integer> categories,
+                          @Param("categories") List<Integer> categories,
                           @Param("range_start") String rangeStart,
                           @Param("range_end") String rangeEnd,
                           Pageable pageable);
