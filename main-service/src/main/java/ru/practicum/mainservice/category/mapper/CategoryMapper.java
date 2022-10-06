@@ -1,6 +1,7 @@
 package ru.practicum.mainservice.category.mapper;
 
 import ru.practicum.mainservice.category.model.dto.CategoryDto;
+import ru.practicum.mainservice.category.model.dto.NewCategoryDto;
 import ru.practicum.mainservice.category.model.entity.Category;
 
 import java.util.Comparator;
@@ -13,6 +14,13 @@ public class CategoryMapper {
         return new CategoryDto(
                 category.getId(),
                 category.getName()
+        );
+    }
+
+    public static Category toCategory(NewCategoryDto categoryDto) {
+        return new Category(
+                null,
+                categoryDto.getName()
         );
     }
 

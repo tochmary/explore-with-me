@@ -6,12 +6,9 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.mainservice.category.mapper.CategoryMapper;
 import ru.practicum.mainservice.category.model.dto.CategoryDto;
+import ru.practicum.mainservice.category.model.dto.NewCategoryDto;
 import ru.practicum.mainservice.category.model.entity.Category;
 import ru.practicum.mainservice.category.service.CategoryService;
-
-import javax.validation.constraints.Positive;
-import javax.validation.constraints.PositiveOrZero;
-import java.util.List;
 
 @Slf4j
 @Validated
@@ -22,7 +19,7 @@ public class CategoryAdminController {
     private final CategoryService categoryService;
 
     @PostMapping
-    public CategoryDto addCategory(@RequestBody CategoryDto categoryDto) {
+    public CategoryDto addCategory(@RequestBody NewCategoryDto categoryDto) {
         log.info("Добавление категории {}", categoryDto);
         Category category = CategoryMapper.toCategory(categoryDto);
         category = categoryService.addCategory(category);

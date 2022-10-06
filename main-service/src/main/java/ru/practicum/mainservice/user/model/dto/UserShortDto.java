@@ -1,4 +1,4 @@
-package ru.practicum.mainservice.category.model.dto;
+package ru.practicum.mainservice.user.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,16 +7,17 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotBlank;
 
 /**
- * Категория:
- * id — Идентификатор категории;
- * name — Название категории
+ * Пользователь (краткая информация):
+ * id — идентификатор пользователя;
+ * name — имя пользователя;
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CategoryDto {
+public class UserShortDto {
     @NotBlank
     private Long id;
+
     @NotBlank
     private String name;
 }

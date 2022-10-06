@@ -1,5 +1,6 @@
 package ru.practicum.mainservice.user.mapper;
 
+import ru.practicum.mainservice.user.model.dto.NewUserRequest;
 import ru.practicum.mainservice.user.model.dto.UserDto;
 import ru.practicum.mainservice.user.model.entity.User;
 
@@ -14,6 +15,14 @@ public class UserMapper {
                 user.getId(),
                 user.getName(),
                 user.getEmail()
+        );
+    }
+
+    public static User toUser(NewUserRequest userDto) {
+        return new User(
+                null,
+                userDto.getName(),
+                userDto.getEmail()
         );
     }
 

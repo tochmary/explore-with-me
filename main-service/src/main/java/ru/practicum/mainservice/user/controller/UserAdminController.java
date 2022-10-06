@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.mainservice.user.mapper.UserMapper;
+import ru.practicum.mainservice.user.model.dto.NewUserRequest;
 import ru.practicum.mainservice.user.model.dto.UserDto;
 import ru.practicum.mainservice.user.model.entity.User;
 import ru.practicum.mainservice.user.service.UserService;
@@ -25,7 +26,7 @@ public class UserAdminController {
     }
 
     @PostMapping
-    public UserDto addUser(@RequestBody UserDto userDto) {
+    public UserDto addUser(@RequestBody NewUserRequest userDto) {
         log.info("Добавление пользователя {}", userDto);
         User user = UserMapper.toUser(userDto);
         user = userService.addUser(user);

@@ -7,16 +7,14 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotBlank;
 
 /**
- * Категория:
+ * Данные для добавления новой категории
  * id — Идентификатор категории;
  * name — Название категории
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CategoryDto {
-    @NotBlank
-    private Long id;
+public class NewCategoryDto {
     @NotBlank
     private String name;
 }
