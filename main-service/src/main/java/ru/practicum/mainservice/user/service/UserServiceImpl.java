@@ -43,7 +43,8 @@ public class UserServiceImpl implements UserService {
         getUserByUserId(userId);
     }
 
-    User getUserByUserId(Long userId) {
+    @Override
+    public User getUserByUserId(long userId) {
         return userRepository.findById(userId).orElseThrow(
                 () -> new NotFoundException("Пользователя с userId=" + userId + " не существует!")
         );

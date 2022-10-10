@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 
 /**
  * Новое событие:
+ * eventId - Идентификатор события
  * annotation - Краткое описание события;
  * category - id категории к которой относится событие;
  * description - Полное описание события;
@@ -28,28 +29,25 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class UpdateEventRequest {
     @NotBlank
+    private Long eventId;
+
     private String annotation;
 
-    @NotBlank
-    private Integer category;
+    private Long category;
 
     private String description;
 
-    @NotBlank
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDateTime eventDate;
 
-    @NotBlank
     private Location location;
 
-    @NotBlank
     private Boolean paid;
 
     private Long participantLimit = 0L;
 
     private Boolean requestModeration = true;
 
-    @NotBlank
     private String title;
 }

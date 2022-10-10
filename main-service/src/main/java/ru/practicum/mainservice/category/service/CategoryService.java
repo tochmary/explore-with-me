@@ -7,7 +7,7 @@ import java.util.List;
 public interface CategoryService {
     List<Category> getCategories(Integer from, Integer size);
 
-    Category getCategoryById(Long catId);
+    Category getCategoryById(long catId);
 
     Category addCategory(Category category);
 

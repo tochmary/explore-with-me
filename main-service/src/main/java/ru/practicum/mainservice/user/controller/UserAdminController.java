@@ -18,6 +18,11 @@ import java.util.List;
 public class UserAdminController {
     private final UserService userService;
 
+    /**
+     * Возвращает информацию обо всех пользователях (учитываются параметры ограничения выборки), либо о конкретных (учитываются указанные идентификаторы)
+     *
+     * @return List<UserDto> список пользователей
+     */
     @GetMapping
     public List<UserDto> getUsers() {
         log.info("Получение списка пользователей");
@@ -25,14 +30,25 @@ public class UserAdminController {
         return UserMapper.getUserDtoList(userList);
     }
 
+    /**
+     * Добавление нового пользователя
+     *
+     * @param userDto Данные нового пользователя
+     * @return UserDto Пользователь
+     */
     @PostMapping
-    public UserDto addUser(@RequestBody NewUserRequest userDto) {
+    public UserDto registerUser(@RequestBody NewUserRequest userDto) {
         log.info("Добавление пользователя {}", userDto);
         User user = UserMapper.toUser(userDto);
         user = userService.addUser(user);
         return UserMapper.toUserDto(user);
     }
 
+    /**
+     * Удаление пользователя
+     *
+     * @param userId id пользователя
+     */
     @DeleteMapping("/{userId}")
     public void deleteUser(@PathVariable long userId) {
         log.info("Удаление пользователя с userId={}", userId);

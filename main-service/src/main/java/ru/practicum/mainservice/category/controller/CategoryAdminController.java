@@ -18,6 +18,12 @@ import ru.practicum.mainservice.category.service.CategoryService;
 public class CategoryAdminController {
     private final CategoryService categoryService;
 
+    /**
+     * Добавление новой категории
+     *
+     * @param categoryDto Данные для добавления новой категории
+     * @return CategoryDto Категория
+     */
     @PostMapping
     public CategoryDto addCategory(@RequestBody NewCategoryDto categoryDto) {
         log.info("Добавление категории {}", categoryDto);
@@ -26,6 +32,12 @@ public class CategoryAdminController {
         return CategoryMapper.toCategoryDto(category);
     }
 
+    /**
+     * Изменение категории
+     *
+     * @param categoryDto Данные для изменения категории
+     * @return CategoryDto Категория
+     */
     @PatchMapping
     public CategoryDto updateCategory(@RequestBody CategoryDto categoryDto) {
         log.info("Изменение категории {}", categoryDto);
@@ -34,6 +46,11 @@ public class CategoryAdminController {
         return CategoryMapper.toCategoryDto(category);
     }
 
+    /**
+     * Удаление категории
+     *
+     * @param catId id категории
+     */
     @DeleteMapping("/{catId}")
     public void deleteCategory(@PathVariable long catId) {
         log.info("Удаление категории с catId={}", catId);

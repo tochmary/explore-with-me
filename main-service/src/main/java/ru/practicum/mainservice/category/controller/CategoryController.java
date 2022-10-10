@@ -22,20 +22,34 @@ import java.util.List;
 @RequestMapping("/categories")
 public class CategoryController {
     private final CategoryService categoryService;
-    private final StatsClient statsClient;
+    //private final StatsClient statsClient;
 
+    /**
+     * Получение категорий
+     *
+     * @param from количество категорий, которые нужно пропустить для формирования текущего набора
+     * @param size количество категорий в наборе
+     * @param request HttpServletRequest
+     * @return List<CategoryDto> список категорий
+     */
     @GetMapping
     public List<CategoryDto> getCategories(@PositiveOrZero @RequestParam(defaultValue = "0") Integer from,
                                            @Positive @RequestParam(defaultValue = "20") Integer size,
                                            HttpServletRequest request) {
         log.info("Получение списка категорий для from={}, size={}", from, size);
         List<Category> categoryList = categoryService.getCategories(from, size);
-        statsClient.save(request);
+        //statsClient.save(request);
         return CategoryMapper.getCategoryDtoList(categoryList);
     }
 
+    /**
+     * Получение информации о категории по её идентификатору
+     *
+     * @param catId id категории
+     * @return CategoryDto Категория
+     */
     @GetMapping("/{catId}")
-    public CategoryDto getCategoryById(@PathVariable long catId) {
+    public CategoryDto getCategory(@PathVariable long catId) {
         log.info("Получение категории с catId={}", catId);
         Category category = categoryService.getCategoryById(catId);
         return CategoryMapper.toCategoryDto(category);

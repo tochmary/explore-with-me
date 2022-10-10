@@ -26,7 +26,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Category getCategoryById(Long catId) {
+    public Category getCategoryById(long catId) {
         log.debug("Получение категории с catId={}", catId);
         return getCategoryByCatId(catId);
     }
@@ -63,7 +63,7 @@ public class CategoryServiceImpl implements CategoryService {
         getCategoryByCatId(catId);
     }
 
-    Category getCategoryByCatId(Long catId) {
+    Category getCategoryByCatId(long catId) {
         return categoryRepository.findById(catId).orElseThrow(
                 () -> new NotFoundException("Категории с catId=" + catId + " не существует!")
         );

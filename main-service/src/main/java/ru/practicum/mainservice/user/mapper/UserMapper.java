@@ -2,6 +2,7 @@ package ru.practicum.mainservice.user.mapper;
 
 import ru.practicum.mainservice.user.model.dto.NewUserRequest;
 import ru.practicum.mainservice.user.model.dto.UserDto;
+import ru.practicum.mainservice.user.model.dto.UserShortDto;
 import ru.practicum.mainservice.user.model.entity.User;
 
 import java.util.Comparator;
@@ -39,5 +40,12 @@ public class UserMapper {
                 .map(UserMapper::toUserDto)
                 .sorted(Comparator.comparing(UserDto::getId))
                 .collect(Collectors.toList());
+    }
+
+    public static UserShortDto toUserShortDto(User user) {
+        return new UserShortDto(
+                user.getId(),
+                user.getName()
+        );
     }
 }

@@ -10,6 +10,7 @@ import ru.practicum.mainservice.user.model.entity.User;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * Полная информация о событии:
@@ -60,7 +61,7 @@ public class Event {
     private LocalDateTime eventDate;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "initiator_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private User initiator;
 
@@ -81,7 +82,8 @@ public class Event {
     @Column(name = "request_moderation")
     private Boolean requestModeration = true;
 
-    //private List<State> state;
+    @OneToMany(mappedBy = "event", fetch = FetchType.LAZY)
+    private List<EventState> state;
 
     @Column
     private String title;

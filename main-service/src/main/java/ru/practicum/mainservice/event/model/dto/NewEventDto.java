@@ -31,7 +31,7 @@ public class NewEventDto {
     private String annotation;
 
     @NotBlank
-    private Integer category;
+    private Long category;
 
     private String description;
 
