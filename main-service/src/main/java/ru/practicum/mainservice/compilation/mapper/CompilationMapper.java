@@ -3,14 +3,17 @@ package ru.practicum.mainservice.compilation.mapper;
 import ru.practicum.mainservice.compilation.model.dto.CompilationDto;
 import ru.practicum.mainservice.compilation.model.dto.NewCompilationDto;
 import ru.practicum.mainservice.compilation.model.entity.Compilation;
+import ru.practicum.mainservice.event.mapper.EventMapper;
+import ru.practicum.mainservice.event.model.entity.Event;
 
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class CompilationMapper {
-    public static Compilation toCompilation(NewCompilationDto compilationDto) {
+    public static Compilation toCompilation(NewCompilationDto compilationDto, List<Event> eventList) {
         Compilation compilation = new Compilation();
+        compilation.setEvents(eventList);
         compilation.setTitle(compilationDto.getTitle());
         compilation.setPinned(compilationDto.getPinned());
         return compilation;
@@ -19,6 +22,7 @@ public class CompilationMapper {
     public static CompilationDto toCompilationDto(Compilation compilation) {
         CompilationDto compilationDto = new CompilationDto();
         compilationDto.setId(compilation.getId());
+        compilationDto.setEvents(EventMapper.getEventShortDtoList(compilation.getEvents()));
         compilationDto.setTitle(compilation.getTitle());
         compilationDto.setPinned(compilation.getPinned());
         return compilationDto;

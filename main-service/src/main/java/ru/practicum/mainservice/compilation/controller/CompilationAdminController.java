@@ -8,6 +8,11 @@ import ru.practicum.mainservice.compilation.model.dto.CompilationDto;
 import ru.practicum.mainservice.compilation.model.dto.NewCompilationDto;
 import ru.practicum.mainservice.compilation.model.entity.Compilation;
 import ru.practicum.mainservice.compilation.service.CompilationService;
+import ru.practicum.mainservice.event.model.entity.Event;
+import ru.practicum.mainservice.event.service.EventService;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
@@ -15,6 +20,7 @@ import ru.practicum.mainservice.compilation.service.CompilationService;
 @RequestMapping("/admin/compilations")
 public class CompilationAdminController {
     private final CompilationService compilationService;
+    private final EventService eventService;
 
     /**
      * Добавления новой подборки
@@ -25,7 +31,8 @@ public class CompilationAdminController {
     @PostMapping
     public CompilationDto saveCompilation(@RequestBody NewCompilationDto compilationDto) {
         log.info("Добавления новой подборки {}", compilationDto);
-        Compilation compilation = CompilationMapper.toCompilation(compilationDto);
+        List<Event> eventList = compilationDto.getEvents().stream().map(eventService::getEventByEventId).collect(Collectors.toList());
+        Compilation compilation = CompilationMapper.toCompilation(compilationDto, eventList);
         compilation = compilationService.addCompilation(compilation);
         return CompilationMapper.toCompilationDto(compilation);
     }
