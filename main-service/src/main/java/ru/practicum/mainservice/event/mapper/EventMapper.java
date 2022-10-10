@@ -2,8 +2,11 @@ package ru.practicum.mainservice.event.mapper;
 
 import ru.practicum.mainservice.category.mapper.CategoryMapper;
 import ru.practicum.mainservice.category.model.entity.Category;
+import ru.practicum.mainservice.compilation.model.dto.CompilationDto;
+import ru.practicum.mainservice.event.model.State;
 import ru.practicum.mainservice.event.model.dto.*;
 import ru.practicum.mainservice.event.model.entity.Event;
+import ru.practicum.mainservice.event.model.entity.EventState;
 import ru.practicum.mainservice.user.mapper.UserMapper;
 import ru.practicum.mainservice.user.model.entity.User;
 
@@ -30,8 +33,8 @@ public class EventMapper {
     }
 
     public static Event toEvent(UpdateEventRequest updateEvent,
-                                        User user,
-                                        Category category) {
+                                User user,
+                                Category category) {
         Event event = new Event();
         event.setId(updateEvent.getEventId());
         event.setAnnotation(updateEvent.getAnnotation());
@@ -49,8 +52,8 @@ public class EventMapper {
     }
 
     public static Event toEvent(AdminUpdateEventRequest eventUpdateDto,
-                                        long eventId,
-                                        Category category) {
+                                long eventId,
+                                Category category) {
         Event event = new Event();
         event.setId(eventId);
         event.setAnnotation(eventUpdateDto.getAnnotation());
@@ -86,12 +89,22 @@ public class EventMapper {
         eventFullDto.setLocation(LocationMapper.toLocation(event.getLocationLat(), event.getLocationLon()));
         eventFullDto.setPaid(event.getPaid());
         eventFullDto.setParticipantLimit(event.getParticipantLimit());
-        //eventFullDto.setPublishedOn();
+        eventFullDto.setPublishedOn(event.getPublishedOn());
         eventFullDto.setRequestModeration(event.getRequestModeration());
-        //eventFullDto.setState();
+        eventFullDto.setState(getStateLast(event));
         eventFullDto.setTitle(event.getTitle());
         //eventFullDto.setViews();
         return eventFullDto;
+    }
+
+    public static State getStateLast(Event event) {
+        if (event.getState() != null && !event.getState().isEmpty()) {
+            return event.getState().stream()
+                    .max(Comparator.comparing(EventState::getId))
+                    .orElseThrow()
+                    .getState();
+        }
+        return null;
     }
 
     public static List<EventShortDto> getEventShortDtoList(List<Event> eventList) {
@@ -100,6 +113,7 @@ public class EventMapper {
                 .sorted(Comparator.comparing(EventShortDto::getId))
                 .collect(Collectors.toList());
     }
+
     public static EventShortDto getEventShortDto(Event event) {
         EventShortDto eventShortDto = new EventShortDto();
         eventShortDto.setId(event.getId());

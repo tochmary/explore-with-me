@@ -76,7 +76,7 @@ public class EventFullDto {
 
     private Boolean requestModeration = true;
 
-    private List<State> state;
+    private State state;
 
     @NotBlank
     private String title;

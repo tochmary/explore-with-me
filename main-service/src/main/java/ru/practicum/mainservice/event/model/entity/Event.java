@@ -77,7 +77,7 @@ public class Event {
     @Column(name = "participant_limit")
     private Long participantLimit = 0L;
 
-    //private LocalDateTime publishedOn;
+    private LocalDateTime publishedOn;
 
     @Column(name = "request_moderation")
     private Boolean requestModeration = true;

@@ -61,6 +61,7 @@ CREATE TABLE IF NOT EXISTS events
     location_lon FLOAT NOT NULL,
     paid BOOLEAN NOT NULL,
     participant_limit BIGINT DEFAULT 0,
+    published_on TIMESTAMP WITHOUT TIME ZONE,
     request_moderation BOOLEAN DEFAULT TRUE,
     CONSTRAINT events_pk PRIMARY KEY (id),
     CONSTRAINT events_category_id_fk FOREIGN KEY (category_id) REFERENCES categories (id),
