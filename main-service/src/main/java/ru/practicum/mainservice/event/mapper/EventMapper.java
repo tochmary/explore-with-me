@@ -3,6 +3,7 @@ package ru.practicum.mainservice.event.mapper;
 import ru.practicum.mainservice.category.mapper.CategoryMapper;
 import ru.practicum.mainservice.category.model.entity.Category;
 import ru.practicum.mainservice.compilation.model.dto.CompilationDto;
+import ru.practicum.mainservice.event.model.Location;
 import ru.practicum.mainservice.event.model.State;
 import ru.practicum.mainservice.event.model.dto.*;
 import ru.practicum.mainservice.event.model.entity.Event;
@@ -41,8 +42,11 @@ public class EventMapper {
         event.setCategory(category);
         event.setDescription(updateEvent.getDescription());
         event.setEventDate(updateEvent.getEventDate());
-        event.setLocationLat(updateEvent.getLocation().getLat());
-        event.setLocationLon(updateEvent.getLocation().getLon());
+        Location location = updateEvent.getLocation();
+        if (location != null) {
+            event.setLocationLat(updateEvent.getLocation().getLat());
+            event.setLocationLon(updateEvent.getLocation().getLon());
+        }
         event.setPaid(updateEvent.getPaid());
         event.setParticipantLimit(updateEvent.getParticipantLimit());
         event.setRequestModeration(updateEvent.getRequestModeration());
@@ -60,8 +64,11 @@ public class EventMapper {
         event.setCategory(category);
         event.setDescription(eventUpdateDto.getDescription());
         event.setEventDate(eventUpdateDto.getEventDate());
-        event.setLocationLat(eventUpdateDto.getLocation().getLat());
-        event.setLocationLon(eventUpdateDto.getLocation().getLon());
+        Location location = eventUpdateDto.getLocation();
+        if (location != null) {
+            event.setLocationLat(eventUpdateDto.getLocation().getLat());
+            event.setLocationLon(eventUpdateDto.getLocation().getLon());
+        }
         event.setPaid(eventUpdateDto.getPaid());
         event.setParticipantLimit(eventUpdateDto.getParticipantLimit());
         event.setRequestModeration(eventUpdateDto.getRequestModeration());

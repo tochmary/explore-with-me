@@ -73,7 +73,7 @@ public class EventPrivateController {
         User user = userService.getUserByUserId(userId);
         Category category = categoryService.getCategoryById(eventUpdateDto.getCategory());
         Event event = EventMapper.toEvent(eventUpdateDto, user, category);
-        event = eventService.updateEvent(event);
+        event = eventService.updateEvent(eventUpdateDto.getEventId(), event);
         return EventMapper.toEventFullDto(event);
     }
 

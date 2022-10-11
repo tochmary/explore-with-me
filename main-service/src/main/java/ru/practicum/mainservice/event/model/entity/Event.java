@@ -61,7 +61,7 @@ public class Event {
     private LocalDateTime eventDate;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "initiator_id", nullable = false)
+    @JoinColumn(name = "initiator_id", nullable = false, updatable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private User initiator;
 

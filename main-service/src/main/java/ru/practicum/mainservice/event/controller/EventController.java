@@ -4,7 +4,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import ru.practicum.mainservice.common.Constants;
+import ru.practicum.mainservice.common.Utility;
 import ru.practicum.mainservice.event.mapper.EventMapper;
+import ru.practicum.mainservice.event.model.State;
 import ru.practicum.mainservice.event.model.dto.EventFullDto;
 import ru.practicum.mainservice.event.model.dto.EventShortDto;
 import ru.practicum.mainservice.event.model.entity.Event;
@@ -12,7 +15,9 @@ import ru.practicum.mainservice.event.service.EventService;
 
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Validated
@@ -61,8 +66,10 @@ public class EventController {
         log.info("Вариант сортировки: по дате события или по количеству просмотров (EVENT_DATE, VIEWS): {}", sort);
         log.info("количество событий, которые нужно пропустить для формирования текущего набора: {}", from);
         log.info("количество событий в наборе: {}", size);
+        LocalDateTime rangeStartLDT = LocalDateTime.parse(rangeStart, Constants.DATE_TIME_FORMATTER);
+        LocalDateTime rangeEndLDT = LocalDateTime.parse(rangeEnd, Constants.DATE_TIME_FORMATTER);
         List<Event> eventList = eventService.getEvents(
-                text, categories, paid, rangeStart, rangeEnd, onlyAvailable, sort, from, size);
+                text, categories, paid, rangeStartLDT, rangeEndLDT, onlyAvailable, sort, from, size);
         return EventMapper.getEventShortDtoList(eventList);
     }
 

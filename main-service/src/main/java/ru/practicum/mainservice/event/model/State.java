@@ -1,10 +1,21 @@
 package ru.practicum.mainservice.event.model;
 
+import java.util.Optional;
+
 /**
  * Состояние жизненного цикла события
  */
 public enum State {
     PENDING,
     PUBLISHED,
-    CANCELED
+    CANCELED;
+
+    public static Optional<State> toState(String stringState) {
+        for (State state : values()) {
+            if (state.name().equalsIgnoreCase(stringState)) {
+                return Optional.of(state);
+            }
+        }
+        return Optional.empty();
+    }
 }

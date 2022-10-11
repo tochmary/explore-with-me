@@ -1,19 +1,21 @@
 package ru.practicum.mainservice.event.service;
 
+import ru.practicum.mainservice.event.model.State;
 import ru.practicum.mainservice.event.model.entity.Event;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface EventService {
     List<Event> getEvents(List<Long> users,
-                          List<String> states,
+                          List<State> states,
                           List<Long> categories,
-                          String rangeStart,
-                          String rangeEnd,
+                          LocalDateTime rangeStart,
+                          LocalDateTime rangeEnd,
                           Integer from,
                           Integer size);
 
-    Event updateEvent(Event event);
+    Event updateEvent(long eventId, Event event);
 
     Event publishEventById(long eventId);
 
@@ -22,8 +24,8 @@ public interface EventService {
     List<Event> getEvents(String text,
                           List<Long> categories,
                           Boolean paid,
-                          String rangeStart,
-                          String rangeEnd,
+                          LocalDateTime rangeStart,
+                          LocalDateTime rangeEnd,
                           Boolean onlyAvailable,
                           String sort,
                           Integer from,

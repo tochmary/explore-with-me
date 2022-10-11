@@ -30,25 +30,56 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public List<Event> getEvents(List<Long> users,
-                                 List<String> states,
+                                 List<State> states,
                                  List<Long> categories,
-                                 String rangeStart,
-                                 String rangeEnd,
+                                 LocalDateTime rangeStart,
+                                 LocalDateTime rangeEnd,
                                  Integer from,
                                  Integer size) {
         log.debug("Получение списка событий:");
         log.info("users={}, states={}, categories={}, rangeStart={}, rangeEnd={}, from={}, size={}",
                 users, states, categories, rangeStart, rangeEnd, from, size);
         PageRequest pr = PageRequest.of(from / size, size);
-        return eventRepository.getEvents(users, //states,
+        return eventRepository.getEvents(users, states,
                 categories, rangeStart, rangeEnd, pr).toList();
     }
 
     @Override
     @Transactional
-    public Event updateEvent(Event event) {
-        log.debug("Обновление события {}", event);
-        return eventRepository.save(event);
+    public Event updateEvent(long eventId, Event event) {
+        log.debug("Обновление события c eventId={}, данные для обновления {}", eventId, event);
+        Event eventNew = getEventByEventId(eventId);
+        if (event.getAnnotation() != null) {
+            eventNew.setAnnotation(event.getAnnotation());
+        }
+        if (event.getCategory() != null) {
+            eventNew.setCategory(event.getCategory());
+        }
+        if (event.getDescription() != null) {
+            eventNew.setDescription(event.getDescription());
+        }
+        if (event.getEventDate() != null) {
+            eventNew.setEventDate(event.getEventDate());
+        }
+        if (event.getLocationLat() != null) {
+            eventNew.setLocationLat(event.getLocationLat());
+        }
+        if (event.getLocationLon() != null) {
+            eventNew.setLocationLon(event.getLocationLon());
+        }
+        if (event.getPaid() != null) {
+            eventNew.setPaid(event.getPaid());
+        }
+        if (event.getParticipantLimit() != null) {
+            eventNew.setParticipantLimit(event.getParticipantLimit());
+        }
+        if (event.getRequestModeration() != null) {
+            eventNew.setRequestModeration(event.getRequestModeration());
+        }
+        if (event.getTitle() != null) {
+            eventNew.setTitle(event.getTitle());
+        }
+        return eventRepository.save(eventNew);
     }
 
     @Override
@@ -87,8 +118,8 @@ public class EventServiceImpl implements EventService {
     public List<Event> getEvents(String text,
                                  List<Long> categories,
                                  Boolean paid,
-                                 String rangeStart,
-                                 String rangeEnd,
+                                 LocalDateTime rangeStart,
+                                 LocalDateTime rangeEnd,
                                  Boolean onlyAvailable,
                                  String sort,
                                  Integer from,

@@ -5,7 +5,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.mainservice.category.model.entity.Category;
 import ru.practicum.mainservice.category.service.CategoryService;
+import ru.practicum.mainservice.common.Constants;
+import ru.practicum.mainservice.common.Utility;
 import ru.practicum.mainservice.event.mapper.EventMapper;
+import ru.practicum.mainservice.event.model.State;
 import ru.practicum.mainservice.event.model.dto.AdminUpdateEventRequest;
 import ru.practicum.mainservice.event.model.dto.EventFullDto;
 import ru.practicum.mainservice.event.model.entity.Event;
@@ -13,7 +16,9 @@ import ru.practicum.mainservice.event.service.EventService;
 
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
@@ -50,8 +55,11 @@ public class EventAdminController {
         log.info("дата и время не позже которых должно произойти событие: {}", rangeEnd);
         log.info("количество событий, которые нужно пропустить для формирования текущего набора: {}", from);
         log.info("количество событий в наборе: {}", size);
+        LocalDateTime rangeStartLDT = LocalDateTime.parse(rangeStart, Constants.DATE_TIME_FORMATTER);
+        LocalDateTime rangeEndLDT = LocalDateTime.parse(rangeEnd, Constants.DATE_TIME_FORMATTER);
+        List<State> statesS = states.stream().map(s -> Utility.getState(s)).collect(Collectors.toList());
         List<Event> eventList = eventService.getEvents(
-                users, states, categories, rangeStart, rangeEnd, from, size);
+                users, statesS, categories, rangeStartLDT, rangeEndLDT, from, size);
         return EventMapper.getEventFullDtoList(eventList);
     }
 
@@ -67,7 +75,7 @@ public class EventAdminController {
         log.info("Обновление события {} с eventId={}", eventUpdateDto, eventId);
         Category category = categoryService.getCategoryById(eventUpdateDto.getCategory());
         Event event = EventMapper.toEvent(eventUpdateDto, eventId, category);
-        event = eventService.updateEvent(event);
+        event = eventService.updateEvent(eventId, event);
         return EventMapper.toEventFullDto(event);
     }
 
