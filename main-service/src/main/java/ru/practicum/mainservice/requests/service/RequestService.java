@@ -5,7 +5,7 @@ import ru.practicum.mainservice.requests.model.entity.Request;
 import java.util.List;
 
 public interface RequestService {
-    Request getEventParticipants(long userId, long eventId);
+    List<Request> getEventParticipants(long userId, long eventId);
 
     Request confirmParticipationRequest(long userId, long eventId, long reqId);
 

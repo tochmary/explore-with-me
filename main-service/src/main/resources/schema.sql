@@ -97,7 +97,8 @@ CREATE TABLE IF NOT EXISTS requests
     created TIMESTAMP WITHOUT TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT requests_pk PRIMARY KEY (id),
     CONSTRAINT requests_event_id_fk FOREIGN KEY (event_id) REFERENCES events (id),
-    CONSTRAINT requests_requester_id_fk FOREIGN KEY (requester_id) REFERENCES users (id)
+    CONSTRAINT requests_requester_id_fk FOREIGN KEY (requester_id) REFERENCES users (id),
+    unique (requester_id, event_id)
     );
 
 --Таблица подборок

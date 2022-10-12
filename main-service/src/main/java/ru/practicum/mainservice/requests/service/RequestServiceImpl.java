@@ -9,6 +9,7 @@ import ru.practicum.mainservice.event.model.entity.Event;
 import ru.practicum.mainservice.event.service.EventService;
 import ru.practicum.mainservice.requests.model.entity.Request;
 import ru.practicum.mainservice.requests.repository.RequestRepository;
+import ru.practicum.mainservice.user.service.UserService;
 
 import java.util.List;
 import java.util.Objects;
@@ -20,11 +21,13 @@ import java.util.Objects;
 public class RequestServiceImpl implements RequestService {
     private final RequestRepository requestRepository;
     private final EventService eventService;
+    private final UserService userService;
+
 
     @Override
-    public Request getEventParticipants(long userId, long eventId) {
+    public List<Request> getEventParticipants(long userId, long eventId) {
         log.debug("Получение информации о запросах на участие в событии с eventId={}, userId={}", eventId, userId);
-        return requestRepository.findRequestByRequesterIdAndEventId(userId, eventId);
+        return requestRepository.findRequestsByRequesterIdAndEventId(userId, eventId);
     }
 
     @Override
@@ -36,8 +39,8 @@ public class RequestServiceImpl implements RequestService {
         eventService.checkUserForEvent(userId, event);
         Request request = getRequestById(reqId);
         checkEventForRequest(eventId, request);
-        request.setStatus("CANCELED");
-        return requestRepository.findRequestByRequesterIdAndEventId(userId, eventId);
+        request.setStatus("CONFIRMED");
+        return requestRepository.save(request);
     }
 
     @Override
@@ -50,7 +53,7 @@ public class RequestServiceImpl implements RequestService {
         Request request = getRequestById(reqId);
         checkEventForRequest(eventId, request);
         request.setStatus("REJECTED");
-        return requestRepository.findRequestByRequesterIdAndEventId(userId, eventId);
+        return requestRepository.save(request);
     }
 
     @Override
@@ -66,8 +69,8 @@ public class RequestServiceImpl implements RequestService {
         log.debug("Добавление запроса от текущего пользователя с userId={} на участие в событии с eventId={}",
                 userId, eventId);
         Request request = new Request();
-        request.setEventId(eventId);
-        request.setRequesterId(userId);
+        request.setEvent(eventService.getEventByEventId(eventId));
+        request.setRequester(userService.getUserByUserId(userId));
         request.setStatus("PENDING");
         return requestRepository.save(request);
     }
@@ -90,14 +93,14 @@ public class RequestServiceImpl implements RequestService {
     }
 
     private void checkUserForRequest(long userId, Request request) {
-        if (!Objects.equals(request.getRequesterId(), userId)) {
+        if (!Objects.equals(request.getRequester().getId(), userId)) {
             throw new NotFoundException("У пользователя с userId=" + userId +
                     " запроса на участие с requestId=" + request.getId() + " не существует!");
         }
     }
 
     private void checkEventForRequest(long eventId, Request request) {
-        if (!Objects.equals(request.getEventId(), eventId)) {
+        if (!Objects.equals(request.getEvent().getId(), eventId)) {
             throw new NotFoundException("Для события с eventId=" + eventId +
                     " запроса на участие с requestId=" + request.getId() + " не существует!");
         }

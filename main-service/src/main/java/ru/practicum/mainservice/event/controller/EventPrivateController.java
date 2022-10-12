@@ -41,7 +41,7 @@ public class EventPrivateController {
      */
     @GetMapping
     public List<EventShortDto> getEvents(
-            @NotBlank @PathVariable Integer userId,
+            @PathVariable Integer userId,
             @PositiveOrZero @RequestParam(defaultValue = "0") Integer from,
             @Positive @RequestParam(defaultValue = "10") Integer size) {
         log.info("Получение событий, добавленных текущим пользователем:");
@@ -64,7 +64,7 @@ public class EventPrivateController {
      */
     @PatchMapping
     public EventFullDto updateEvent(
-            @NotBlank @PathVariable long userId,
+            @PathVariable long userId,
             @RequestBody UpdateEventRequest eventUpdateDto
     ) {
         log.info("Изменение события добавленного текущим пользователем:");

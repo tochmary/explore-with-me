@@ -173,11 +173,13 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    @Transactional
     public Event cancelEvent(long userId, long eventId) {
         log.debug("Отмена события с id={}", eventId);
         Event event = getEventByEventId(eventId);
         checkUserForEvent(userId, event);
-        //отмена события
+        saveState(event, State.CANCELED);
+        entityManager.detach(event);
         return eventRepository.save(event);
     }
 

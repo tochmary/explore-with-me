@@ -3,6 +3,10 @@ package ru.practicum.mainservice.requests.model.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+import ru.practicum.mainservice.event.model.entity.Event;
+import ru.practicum.mainservice.user.model.entity.User;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -25,14 +29,18 @@ public class Request {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "event_id")
-    private Long eventId;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "event_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Event event;
 
     @Column
     private String status;
 
-    @Column(name = "requester_id")
-    private Long requesterId;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "requester_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private User requester;
 
     @Column
     private LocalDateTime created;

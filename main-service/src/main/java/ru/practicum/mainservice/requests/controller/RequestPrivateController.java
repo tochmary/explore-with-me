@@ -25,15 +25,15 @@ public class RequestPrivateController {
      * @param eventId id события
      * @return ParticipationRequestDto Заявка на участие в событии
      */
-    @GetMapping("/{eventId}")
-    public ParticipationRequestDto getEventParticipants(
+    @GetMapping("/events/{eventId}/requests")
+    public List<ParticipationRequestDto> getEventParticipants(
             @PathVariable long userId,
             @PathVariable long eventId) {
         log.info("Получение информации о запросах на участие в событии текущего пользователя:");
         log.info("id текущего пользователя: {}", userId);
         log.info("id события: {}", eventId);
-        Request request = requestService.getEventParticipants(userId, eventId);
-        return RequestMapper.toRequestDto(request);
+        List<Request> requestList = requestService.getEventParticipants(userId, eventId);
+        return RequestMapper.getParticipationDtoList(requestList);
     }
 
     /**
@@ -44,7 +44,7 @@ public class RequestPrivateController {
      * @param reqId   id заявки, которую подтверждает текущий пользователь
      * @return ParticipationRequestDto Заявка на участие в событии
      */
-    @PatchMapping("/{eventId}/requests/{reqId}/confirm")
+    @PatchMapping("/events/{eventId}/requests/{reqId}/confirm")
     public ParticipationRequestDto confirmParticipationRequest(
             @PathVariable long userId,
             @PathVariable long eventId,
@@ -65,7 +65,7 @@ public class RequestPrivateController {
      * @param reqId   id заявки, которую отменяет текущий пользователь
      * @return ParticipationRequestDto Заявка на участие в событии
      */
-    @PatchMapping("/{eventId}/requests/{reqId}/reject")
+    @PatchMapping("/events/{eventId}/requests/{reqId}/reject")
     public ParticipationRequestDto cancelParticipationRequest(
             @PathVariable long userId,
             @PathVariable long eventId,

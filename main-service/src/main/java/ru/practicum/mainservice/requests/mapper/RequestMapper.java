@@ -12,9 +12,9 @@ public class RequestMapper {
     public static ParticipationRequestDto toRequestDto(Request request) {
         ParticipationRequestDto requestDto = new ParticipationRequestDto();
         requestDto.setId(request.getId());
-        requestDto.setEvent(request.getEventId());
+        requestDto.setEvent(request.getEvent().getId());
         requestDto.setStatus(request.getStatus());
-        requestDto.setRequester(request.getRequesterId());
+        requestDto.setRequester(request.getRequester().getId());
         requestDto.setCreated(request.getCreated());
         return requestDto;
     }
