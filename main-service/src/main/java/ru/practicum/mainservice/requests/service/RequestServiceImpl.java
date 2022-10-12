@@ -26,8 +26,10 @@ public class RequestServiceImpl implements RequestService {
 
     @Override
     public List<Request> getEventParticipants(long userId, long eventId) {
-        log.debug("Получение информации о запросах на участие в событии с eventId={}, userId={}", eventId, userId);
-        return requestRepository.findRequestsByRequesterIdAndEventId(userId, eventId);
+        log.debug("Получение информации о запросах на участие в событии с eventId (событие пользователя) ={}, userId={}",
+                eventId, userId);
+        eventService.checkUserForEvent(userId, eventService.getEventByEventId(eventId));
+        return requestRepository.findRequestsByEventId(eventId);
     }
 
     @Override

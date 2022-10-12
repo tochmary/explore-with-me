@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface RequestRepository extends JpaRepository<Request, Long> {
 
-    List<Request> findRequestsByRequesterIdAndEventId(long userId, long eventId);
+    List<Request> findRequestsByEventId(long eventId);
 
     List<Request> findRequestsByRequesterId(long userId);
 }
