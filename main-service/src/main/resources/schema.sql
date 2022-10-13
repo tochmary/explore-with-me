@@ -11,6 +11,8 @@ CREATE TABLE IF NOT EXISTS categories
     name VARCHAR(255) NOT NULL,
     CONSTRAINT categories_pk PRIMARY KEY (id)
 );
+create unique index categories_name_uindex
+    on categories (name);
 
 --Таблица пользователей
 /**

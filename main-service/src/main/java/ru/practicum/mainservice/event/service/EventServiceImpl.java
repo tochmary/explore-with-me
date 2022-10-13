@@ -196,4 +196,9 @@ public class EventServiceImpl implements EventService {
             throw new NotFoundException("У пользователя с userId=" + userId + " eventId=" + event.getId() + " не существует!");
         }
     }
+
+    @Override
+    public List<Event> getEventsByCatId(long catId) {
+        return eventRepository.getEventsByCategoryId(catId);
+    }
 }

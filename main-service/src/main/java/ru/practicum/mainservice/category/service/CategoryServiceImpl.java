@@ -7,7 +7,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.mainservice.category.model.entity.Category;
 import ru.practicum.mainservice.category.repository.CategoryRepository;
+import ru.practicum.mainservice.common.exception.BadRequestException;
 import ru.practicum.mainservice.common.exception.NotFoundException;
+import ru.practicum.mainservice.event.service.EventService;
 
 import java.util.List;
 
@@ -17,6 +19,7 @@ import java.util.List;
 @Transactional(readOnly = true)
 public class CategoryServiceImpl implements CategoryService {
     private final CategoryRepository categoryRepository;
+    private final EventService eventService;
 
     @Override
     public List<Category> getCategories(Integer from, Integer size) {
@@ -54,6 +57,9 @@ public class CategoryServiceImpl implements CategoryService {
     @Transactional
     public void deleteCategory(long catId) {
         log.debug("Удаление категории с catId={}", catId);
+        if (!eventService.getEventsByCatId(catId).isEmpty()) {
+            throw new BadRequestException("С категорией не должно быть связано ни одного события!");
+        }
         categoryRepository.deleteById(catId);
     }
 

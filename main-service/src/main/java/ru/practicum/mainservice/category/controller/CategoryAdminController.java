@@ -20,6 +20,7 @@ public class CategoryAdminController {
 
     /**
      * Добавление новой категории
+     * имя категории должно быть уникальным
      *
      * @param categoryDto Данные для добавления новой категории
      * @return CategoryDto Категория
@@ -34,6 +35,7 @@ public class CategoryAdminController {
 
     /**
      * Изменение категории
+     * имя категории должно быть уникальным
      *
      * @param categoryDto Данные для изменения категории
      * @return CategoryDto Категория
@@ -48,6 +50,7 @@ public class CategoryAdminController {
 
     /**
      * Удаление категории
+     * с категорией не должно быть связано ни одного события.
      *
      * @param catId id категории
      */

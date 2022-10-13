@@ -44,4 +44,6 @@ public interface EventService {
     Event getEventByEventId(long eventId);
 
     void checkUserForEvent(long userId, Event event);
+
+    List<Event> getEventsByCatId(long catId);
 }
