@@ -8,7 +8,10 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.mainservice.common.exception.NotFoundException;
 import ru.practicum.mainservice.compilation.model.entity.Compilation;
 import ru.practicum.mainservice.compilation.repository.CompilationRepository;
+import ru.practicum.mainservice.event.model.entity.Event;
+import ru.practicum.mainservice.event.service.EventService;
 
+import javax.persistence.EntityManager;
 import java.util.List;
 
 @Slf4j
@@ -17,6 +20,8 @@ import java.util.List;
 @Transactional(readOnly = true)
 public class CompilationServiceImpl implements CompilationService {
     private final CompilationRepository compilationRepository;
+    private final EventService eventService;
+    private final EntityManager entityManager;
 
     @Override
     @Transactional
@@ -56,6 +61,11 @@ public class CompilationServiceImpl implements CompilationService {
     @Transactional
     public void addEventToCompilation(long compId, long eventId) {
         log.info("Добавить событие с eventId={} из подборки с compId={}", eventId, compId);
+        Compilation compilation = getCompilationByCompId(compId);
+        Event event = eventService.getEventByEventId(eventId);
+        compilation.addEvent(event);
+        entityManager.detach(compilation);
+        compilationRepository.save(compilation);
         log.info("Событие добавлено в подборку");
     }
 
@@ -63,6 +73,11 @@ public class CompilationServiceImpl implements CompilationService {
     @Transactional
     public void removeEventFromCompilation(long compId, long eventId) {
         log.info("Удалить событие с eventId={} из подборки с compId={}", eventId, compId);
+        Compilation compilation = getCompilationByCompId(compId);
+        Event event = eventService.getEventByEventId(eventId);
+        compilation.deleteEvent(event);
+        entityManager.detach(compilation);
+        compilationRepository.save(compilation);
         log.info("Событие удалено из подборки");
     }
 

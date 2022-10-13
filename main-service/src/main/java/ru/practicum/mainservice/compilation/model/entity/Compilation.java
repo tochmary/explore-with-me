@@ -36,4 +36,12 @@ public class Compilation {
 
     @Column
     private String title;
+
+    public void addEvent(Event event) {
+        events.add(event);
+    }
+
+    public void deleteEvent(Event event) {
+        events.remove(event);
+    }
 }
