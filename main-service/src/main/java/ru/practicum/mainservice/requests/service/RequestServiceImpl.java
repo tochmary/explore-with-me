@@ -4,7 +4,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.practicum.mainservice.common.exception.BadRequestException;
 import ru.practicum.mainservice.common.exception.NotFoundException;
+import ru.practicum.mainservice.event.mapper.EventMapper;
+import ru.practicum.mainservice.event.model.State;
 import ru.practicum.mainservice.event.model.entity.Event;
 import ru.practicum.mainservice.event.service.EventService;
 import ru.practicum.mainservice.requests.model.entity.Request;
@@ -70,10 +73,24 @@ public class RequestServiceImpl implements RequestService {
     public Request addParticipationRequest(long userId, long eventId) {
         log.debug("Добавление запроса от текущего пользователя с userId={} на участие в событии с eventId={}",
                 userId, eventId);
+        Event event = eventService.getEventByEventId(eventId);
+        if (userId == event.getInitiator().getId()) {
+            throw new BadRequestException("Инициатор события не может добавить запрос на участие в своём событии!");
+        }
+        if (EventMapper.getStateLast(event) != State.PUBLISHED) {
+            throw new BadRequestException("Нельзя участвовать в неопубликованном событии!");
+        }
+        if (event.getParticipantLimit() != 0 && event.getParticipantLimit() == requestRepository.findRequestsByEventId(eventId).size()) {
+            throw new BadRequestException("Достигнут лимит запросов на участие (" + event.getParticipantLimit() + ") !");
+        }
         Request request = new Request();
         request.setEvent(eventService.getEventByEventId(eventId));
         request.setRequester(userService.getUserByUserId(userId));
-        request.setStatus("PENDING");
+        if (!event.getRequestModeration()) {
+            request.setStatus("CONFIRMED");
+        } else {
+            request.setStatus("PENDING");
+        }
         return requestRepository.save(request);
     }
 

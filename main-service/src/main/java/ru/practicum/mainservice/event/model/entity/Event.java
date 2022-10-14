@@ -17,7 +17,7 @@ import java.util.List;
  * id - Идентификатор;
  * annotation - Краткое описание;
  * category - Категория;
- * //* confirmedRequests - Количество одобренных заявок на участие в данном событии;
+ * confirmedRequests - Количество одобренных заявок на участие в данном событии;
  * createdOn - Дата и время создания события (в формате \"yyyy-MM-dd HH:mm:ss\";
  * description - Полное описание события;
  * eventDate - Дата и время на которые намечено событие (в формате \"yyyy-MM-dd HH:mm:ss\");
@@ -25,9 +25,9 @@ import java.util.List;
  * location - Широта и долгота места проведения события;
  * paid - Нужно ли оплачивать участие;
  * participantLimit - Ограничение на количество участников. Значение 0 - означает отсутствие ограничения;
- * //*publishedOn - Дата и время публикации события (в формате \"yyyy-MM-dd HH:mm:ss\");
+ * publishedOn - Дата и время публикации события (в формате \"yyyy-MM-dd HH:mm:ss\");
  * requestModeration - Нужна ли пре-модерация заявок на участие;
- * //* state - Список состояний жизненного цикла события;
+ * state - Список состояний жизненного цикла события;
  * title - Заголовок;
  * //* views - Количество просмотрев события;
  */
@@ -49,7 +49,7 @@ public class Event {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Category category;
 
-    //private Integer confirmedRequests;
+    private Long confirmedRequests;
 
     @Column(name = "created_on")
     private LocalDateTime createdOn = LocalDateTime.now();
