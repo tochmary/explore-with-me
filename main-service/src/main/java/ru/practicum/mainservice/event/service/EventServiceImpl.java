@@ -49,6 +49,10 @@ public class EventServiceImpl implements EventService {
     public Event updateEvent(long eventId, Event event) {
         log.debug("Обновление события c eventId={}, данные для обновления {}", eventId, event);
         Event eventNew = getEventByEventId(eventId);
+        State state = EventMapper.getStateLast(eventNew);
+        if (!(state == State.PENDING || state == State.CANCELED)) {
+            throw new BadRequestException("Изменить можно только отмененные события или события в состоянии ожидания модерации!");
+        }
         if (event.getAnnotation() != null) {
             eventNew.setAnnotation(event.getAnnotation());
         }
@@ -59,6 +63,7 @@ public class EventServiceImpl implements EventService {
             eventNew.setDescription(event.getDescription());
         }
         if (event.getEventDate() != null) {
+            checkEventDate(event);
             eventNew.setEventDate(event.getEventDate());
         }
         if (event.getLocationLat() != null) {
@@ -79,6 +84,9 @@ public class EventServiceImpl implements EventService {
         if (event.getTitle() != null) {
             eventNew.setTitle(event.getTitle());
         }
+        if (state == State.CANCELED) {
+            saveState(event, State.PENDING);
+        }
         return eventRepository.save(eventNew);
     }
 
@@ -96,8 +104,8 @@ public class EventServiceImpl implements EventService {
             throw new BadRequestException("Дата начала события должна быть не ранее чем за час от даты публикации!");
         }
         event.setPublishedOn(publishedOn);
-        eventRepository.save(event);
         entityManager.detach(event);
+        eventRepository.save(event);
         return getEventByEventId(eventId);
     }
 
@@ -120,22 +128,30 @@ public class EventServiceImpl implements EventService {
                                  Boolean paid,
                                  LocalDateTime rangeStart,
                                  LocalDateTime rangeEnd,
-                                 Boolean onlyAvailable,
-                                 String sort,
+                                 State state,
                                  Integer from,
                                  Integer size) {
         log.debug("Получение списка событий с возможностью фильтрации:");
-        log.info("text={}, categories={}, states={}, rangeStart={}, rangeEnd={}, onlyAvailable={}, sort={}, from={}, size={}",
-                text, categories, paid, rangeStart, rangeEnd, onlyAvailable, sort, from, size);
+        log.info("text={}, categories={}, states={}, rangeStart={}, rangeEnd={}, state={}, from={}, size={}",
+                text, categories, paid, rangeStart, rangeEnd, state, from, size);
         PageRequest pr = PageRequest.of(from / size, size);
-        return eventRepository.getEvents(text, categories, paid, rangeStart, rangeEnd, //onlyAvailable,
-                sort, pr).toList();
+        return eventRepository.getEvents(text, categories, paid, rangeStart, rangeEnd,
+                state, pr).toList();
     }
 
     @Override
     public Event getEventById(long id) {
         log.debug("Получение события с id={}", id);
-        return getEventByEventId(id);
+        /*
+         * событие должно быть опубликовано
+         * информация о событии должна включать в себя количество просмотров и количество подтвержденных запросов
+         * информацию о том, что по этому эндпоинту был осуществлен и обработан запрос, нужно сохранить в сервисе статистики
+         */
+        Event event = getEventByEventId(id);
+        if (EventMapper.getStateLast(event) != State.PUBLISHED) {
+            throw new BadRequestException("Событие должно быть опубликовано");
+        }
+        return event;
     }
 
     @Override
@@ -150,6 +166,7 @@ public class EventServiceImpl implements EventService {
     @Transactional
     public Event addEvent(Event event) {
         log.debug("Добавление события {}", event);
+        checkEventDate(event);
         Event eventNew = eventRepository.save(event);
         saveState(eventNew, State.PENDING);
         entityManager.detach(event);
@@ -177,6 +194,9 @@ public class EventServiceImpl implements EventService {
     public Event cancelEvent(long userId, long eventId) {
         log.debug("Отмена события с id={}", eventId);
         Event event = getEventByEventId(eventId);
+        if (EventMapper.getStateLast(event) != State.PENDING) {
+            throw new BadRequestException("Отменить можно только событие в состоянии ожидания модерации");
+        }
         checkUserForEvent(userId, event);
         saveState(event, State.CANCELED);
         entityManager.detach(event);
@@ -200,5 +220,12 @@ public class EventServiceImpl implements EventService {
     @Override
     public List<Event> getEventsByCatId(long catId) {
         return eventRepository.getEventsByCategoryId(catId);
+    }
+
+    private void checkEventDate(Event event) {
+        if (event.getEventDate().isBefore(LocalDateTime.now().plusHours(2))) {
+            throw new BadRequestException("Дата и время на которые намечено событие (" + event.getEventDate() + ") не может быть раньше, " +
+                    "чем через два часа от текущего момента (" + LocalDateTime.now() + ")!");
+        }
     }
 }

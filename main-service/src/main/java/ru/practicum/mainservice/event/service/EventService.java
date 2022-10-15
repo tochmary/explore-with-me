@@ -26,8 +26,7 @@ public interface EventService {
                           Boolean paid,
                           LocalDateTime rangeStart,
                           LocalDateTime rangeEnd,
-                          Boolean onlyAvailable,
-                          String sort,
+                          State state,
                           Integer from,
                           Integer size);
 

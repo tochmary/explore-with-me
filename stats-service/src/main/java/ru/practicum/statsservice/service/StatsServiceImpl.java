@@ -29,4 +29,10 @@ public class StatsServiceImpl implements StatsService {
         log.debug("Добавление endpointHit {}", endpointHit);
         statsRepository.save(endpointHit);
     }
+
+    @Override
+    public Integer getStatsEvent(long eventId) {
+        log.debug("Получение количества просмотра события с eventId={}", eventId);
+        return statsRepository.findCountStatsEvent(eventId);
+    }
 }

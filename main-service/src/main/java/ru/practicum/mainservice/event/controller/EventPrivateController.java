@@ -16,7 +16,6 @@ import ru.practicum.mainservice.event.service.EventService;
 import ru.practicum.mainservice.user.model.entity.User;
 import ru.practicum.mainservice.user.service.UserService;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 import java.util.List;

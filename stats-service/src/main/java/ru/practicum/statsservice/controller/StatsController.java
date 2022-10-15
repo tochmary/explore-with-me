@@ -24,6 +24,12 @@ public class StatsController {
         return statsService.getStats();
     }
 
+    @GetMapping("/stats/events/{id}")
+    public Integer getStatsEvent(@PathVariable(name = "id") long eventId) {
+        log.info("Получение количества посещений API /events/{}", eventId);
+        return statsService.getStatsEvent(eventId);
+    }
+
     @PostMapping("/hit")
     public void save(@RequestBody EndpointHitDto endpointHitDto) {
         log.info("Сохранение информации о том, что к эндпоинту был запрос {}", endpointHitDto);

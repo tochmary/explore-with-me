@@ -6,8 +6,17 @@ import java.util.Optional;
  * Состояние жизненного цикла события
  */
 public enum State {
+    /**
+     * Ожидание модерации
+     */
     PENDING,
+    /**
+     * Опубликовано
+     */
     PUBLISHED,
+    /**
+     * Отменено
+     */
     CANCELED;
 
     public static Optional<State> toState(String stringState) {

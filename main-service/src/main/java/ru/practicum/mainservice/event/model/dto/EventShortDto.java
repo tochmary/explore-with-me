@@ -36,7 +36,7 @@ public class EventShortDto {
     @NotBlank
     private CategoryDto category;
 
-    private Long confirmedRequests;
+    private Integer confirmedRequests;
 
     @NotBlank
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
@@ -52,5 +52,5 @@ public class EventShortDto {
     @NotBlank
     private String title;
 
-    private Long views;
+    private Integer views;
 }

@@ -8,7 +8,6 @@ import ru.practicum.mainservice.category.mapper.CategoryMapper;
 import ru.practicum.mainservice.category.model.dto.CategoryDto;
 import ru.practicum.mainservice.category.model.entity.Category;
 import ru.practicum.mainservice.category.service.CategoryService;
-import ru.practicum.mainservice.client.StatsClient;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.Positive;
@@ -22,7 +21,6 @@ import java.util.List;
 @RequestMapping("/categories")
 public class CategoryController {
     private final CategoryService categoryService;
-    //private final StatsClient statsClient;
 
     /**
      * Получение категорий
@@ -38,7 +36,6 @@ public class CategoryController {
                                            HttpServletRequest request) {
         log.info("Получение списка категорий для from={}, size={}", from, size);
         List<Category> categoryList = categoryService.getCategories(from, size);
-        //statsClient.save(request);
         return CategoryMapper.getCategoryDtoList(categoryList);
     }
 

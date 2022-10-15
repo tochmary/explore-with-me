@@ -1,5 +1,6 @@
 package ru.practicum.mainservice.requests.service;
 
+import ru.practicum.mainservice.event.model.entity.Event;
 import ru.practicum.mainservice.requests.model.entity.Request;
 
 import java.util.List;
@@ -18,4 +19,10 @@ public interface RequestService {
     Request cancelRequest(long userId, long requestId);
 
     Request getRequestById(long requestId);
+
+    List<Request> getRequestsByEventId(long eventId);
+
+    boolean isParticipantLimit(Event event);
+
+    List<Request> getRequestsByEventIdAndStatus(long eventId, String status);
 }

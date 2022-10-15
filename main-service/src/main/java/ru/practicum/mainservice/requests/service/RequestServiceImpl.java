@@ -23,8 +23,8 @@ import java.util.Objects;
 @Transactional(readOnly = true)
 public class RequestServiceImpl implements RequestService {
     private final RequestRepository requestRepository;
-    private final EventService eventService;
     private final UserService userService;
+    private final EventService eventService;
 
 
     @Override
@@ -80,7 +80,7 @@ public class RequestServiceImpl implements RequestService {
         if (EventMapper.getStateLast(event) != State.PUBLISHED) {
             throw new BadRequestException("Нельзя участвовать в неопубликованном событии!");
         }
-        if (event.getParticipantLimit() != 0 && event.getParticipantLimit() == requestRepository.findRequestsByEventId(eventId).size()) {
+        if (isParticipantLimit(event)) {
             throw new BadRequestException("Достигнут лимит запросов на участие (" + event.getParticipantLimit() + ") !");
         }
         Request request = new Request();
@@ -109,6 +109,22 @@ public class RequestServiceImpl implements RequestService {
         return requestRepository.findById(requestId).orElseThrow(
                 () -> new NotFoundException("Запроса на участие с requestId=" + requestId + " не существует!")
         );
+    }
+
+    @Override
+    public List<Request> getRequestsByEventId(long eventId) {
+        return requestRepository.findRequestsByEventId(eventId);
+    }
+
+    @Override
+    public List<Request> getRequestsByEventIdAndStatus(long eventId, String status) {
+        return requestRepository.findRequestsByEventIdAndStatus(eventId, status);
+    }
+
+    @Override
+    public boolean isParticipantLimit(Event event) {
+        return event.getParticipantLimit() != 0
+                && event.getParticipantLimit() == getRequestsByEventId(event.getId()).size();
     }
 
     private void checkUserForRequest(long userId, Request request) {

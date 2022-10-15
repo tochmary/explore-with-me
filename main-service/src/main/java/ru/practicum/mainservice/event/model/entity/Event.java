@@ -17,7 +17,7 @@ import java.util.List;
  * id - Идентификатор;
  * annotation - Краткое описание;
  * category - Категория;
- * confirmedRequests - Количество одобренных заявок на участие в данном событии;
+ * //* confirmedRequests - Количество одобренных заявок на участие в данном событии;
  * createdOn - Дата и время создания события (в формате \"yyyy-MM-dd HH:mm:ss\";
  * description - Полное описание события;
  * eventDate - Дата и время на которые намечено событие (в формате \"yyyy-MM-dd HH:mm:ss\");
@@ -49,7 +49,8 @@ public class Event {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Category category;
 
-    private Long confirmedRequests;
+    @Transient
+    private Integer confirmedRequests;
 
     @Column(name = "created_on")
     private LocalDateTime createdOn = LocalDateTime.now();
@@ -88,5 +89,6 @@ public class Event {
     @Column
     private String title;
 
-    //private Long views;
+    @Transient
+    private Integer views;
 }

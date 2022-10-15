@@ -13,7 +13,6 @@ import ru.practicum.mainservice.user.model.dto.UserShortDto;
 
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
-import java.util.List;
 
 /**
  * Полная информация о событии:
@@ -46,7 +45,7 @@ public class EventFullDto {
     @NotBlank
     private CategoryDto category;
 
-    private Long confirmedRequests;
+    private Integer confirmedRequests;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonSerialize(using = LocalDateTimeSerializer.class)
@@ -81,5 +80,5 @@ public class EventFullDto {
     @NotBlank
     private String title;
 
-    private Long views;
+    private Integer views;
 }

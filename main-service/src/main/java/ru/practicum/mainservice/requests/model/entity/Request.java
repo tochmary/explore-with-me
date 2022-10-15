@@ -43,5 +43,5 @@ public class Request {
     private User requester;
 
     @Column
-    private LocalDateTime created;
+    private LocalDateTime created = LocalDateTime.now();
 }

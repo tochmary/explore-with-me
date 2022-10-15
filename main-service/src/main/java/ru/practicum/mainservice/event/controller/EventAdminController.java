@@ -30,13 +30,14 @@ public class EventAdminController {
 
     /**
      * Эндпоинт возвращает полную информацию обо всех событиях подходящих под переданные условия
-     * @param users список id пользователей, чьи события нужно найти
-     * @param states список состояний в которых находятся искомые события
+     *
+     * @param users      список id пользователей, чьи события нужно найти
+     * @param states     список состояний в которых находятся искомые события
      * @param categories список id категорий в которых будет вестись поиск
      * @param rangeStart дата и время не раньше которых должно произойти событие
-     * @param rangeEnd дата и время не позже которых должно произойти событие
-     * @param from количество событий, которые нужно пропустить для формирования текущего набора
-     * @param size количество событий в наборе
+     * @param rangeEnd   дата и время не позже которых должно произойти событие
+     * @param from       количество событий, которые нужно пропустить для формирования текущего набора
+     * @param size       количество событий в наборе
      * @return EventFullDto Полная информация о событии
      */
     @GetMapping
@@ -57,7 +58,7 @@ public class EventAdminController {
         log.info("количество событий в наборе: {}", size);
         LocalDateTime rangeStartLDT = LocalDateTime.parse(rangeStart, Constants.DATE_TIME_FORMATTER);
         LocalDateTime rangeEndLDT = LocalDateTime.parse(rangeEnd, Constants.DATE_TIME_FORMATTER);
-        List<State> statesS = states.stream().map(s -> Utility.getState(s)).collect(Collectors.toList());
+        List<State> statesS = states.stream().map(Utility::getState).collect(Collectors.toList());
         List<Event> eventList = eventService.getEvents(
                 users, statesS, categories, rangeStartLDT, rangeEndLDT, from, size);
         return EventMapper.getEventFullDtoList(eventList);
@@ -65,7 +66,8 @@ public class EventAdminController {
 
     /**
      * Редактирование данных любого события администратором. Валидация данных не требуется.
-     * @param eventId Идентификатор события
+     *
+     * @param eventId        Идентификатор события
      * @param eventUpdateDto Информация для редактирования события администратором. Все поля необязательные. Значение полей не валидируется.
      * @return EventFullDto Полная информация о событии
      */
@@ -82,7 +84,8 @@ public class EventAdminController {
     /**
      * Публикация события:
      * дата начала события должна быть не ранее чем за час от даты публикации.
-     * событие должно быть в состоянии ожидания публикации
+     * Событие должно быть в состоянии ожидания публикации
+     *
      * @param eventId Идентификатор события
      * @return EventFullDto Полная информация о событии
      */
@@ -96,6 +99,7 @@ public class EventAdminController {
     /**
      * Отклонение события:
      * событие не должно быть опубликовано.
+     *
      * @param eventId Идентификатор события
      * @return EventFullDto Полная информация о событии
      */

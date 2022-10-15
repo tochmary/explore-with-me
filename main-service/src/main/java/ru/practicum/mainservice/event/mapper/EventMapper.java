@@ -99,7 +99,7 @@ public class EventMapper {
         eventFullDto.setRequestModeration(event.getRequestModeration());
         eventFullDto.setState(getStateLast(event));
         eventFullDto.setTitle(event.getTitle());
-        //eventFullDto.setViews();
+        eventFullDto.setViews(event.getViews());
         return eventFullDto;
     }
 
@@ -115,12 +115,12 @@ public class EventMapper {
 
     public static List<EventShortDto> getEventShortDtoList(List<Event> eventList) {
         return eventList.stream()
-                .map(EventMapper::getEventShortDto)
+                .map(EventMapper::toEventShortDto)
                 .sorted(Comparator.comparing(EventShortDto::getId))
                 .collect(Collectors.toList());
     }
 
-    public static EventShortDto getEventShortDto(Event event) {
+    public static EventShortDto toEventShortDto(Event event) {
         EventShortDto eventShortDto = new EventShortDto();
         eventShortDto.setId(event.getId());
         eventShortDto.setAnnotation(event.getAnnotation());
@@ -130,7 +130,7 @@ public class EventMapper {
         eventShortDto.setInitiator(UserMapper.toUserShortDto(event.getInitiator()));
         eventShortDto.setPaid(event.getPaid());
         eventShortDto.setTitle(event.getTitle());
-        //eventFullDto.setViews();
+        eventShortDto.setViews(event.getViews());
         return eventShortDto;
     }
 }

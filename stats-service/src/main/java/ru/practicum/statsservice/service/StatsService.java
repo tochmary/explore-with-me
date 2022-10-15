@@ -9,4 +9,6 @@ public interface StatsService {
     List<ViewStatsDto> getStats();
 
     void save(EndpointHit endpointHit);
+
+    Integer getStatsEvent(long eventId);
 }

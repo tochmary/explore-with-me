@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS users
  * id - Идентификатор;
  * annotation - Краткое описание;
  * category - Категория;
- * confirmedRequests - Количество одобренных заявок на участие в данном событии;
+ --* confirmedRequests - Количество одобренных заявок на участие в данном событии;
  * createdOn - Дата и время создания события (в формате \"yyyy-MM-dd HH:mm:ss\";
  * description - Полное описание события;
  * eventDate - Дата и время на которые намечено событие (в формате \"yyyy-MM-dd HH:mm:ss\");
@@ -62,7 +62,6 @@ CREATE TABLE IF NOT EXISTS events
     location_lat FLOAT,
     location_lon FLOAT,
     paid BOOLEAN NOT NULL,
-    confirmed_requests BIGINT,
     participant_limit BIGINT DEFAULT 0,
     published_on TIMESTAMP WITHOUT TIME ZONE,
     request_moderation BOOLEAN DEFAULT TRUE,
