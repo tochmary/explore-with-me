@@ -2,6 +2,7 @@ package ru.practicum.mainservice.user.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.mainservice.common.exception.NotFoundException;
@@ -18,9 +19,17 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
     @Override
-    public List<User> getUsers() {
-        log.debug("Получение списка всех пользователей");
-        return userRepository.findAll();
+    public List<User> getUsers(Integer from, Integer size) {
+        log.debug("Получение списка всех пользователей c from={}, size={}", from, size);
+        PageRequest pr = PageRequest.of(from / size, size);
+        return userRepository.findAll(pr).toList();
+    }
+
+    @Override
+    public List<User> getUsers(List<Long> userIds, Integer from, Integer size) {
+        log.debug("Получение списка всех пользователей c from={}, size={}", from, size);
+        PageRequest pr = PageRequest.of(from / size, size);
+        return userRepository.findUsersByIdIn(userIds, pr).toList();
     }
 
     @Override
@@ -48,5 +57,11 @@ public class UserServiceImpl implements UserService {
         return userRepository.findById(userId).orElseThrow(
                 () -> new NotFoundException("Пользователя с userId=" + userId + " не существует!")
         );
+    }
+
+    @Override
+    public User getUser(long userId) {
+        log.debug("Получение пользователя");
+        return getUserByUserId(userId);
     }
 }

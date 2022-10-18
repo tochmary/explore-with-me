@@ -1,4 +1,4 @@
-package ru.practicum.mainservice.requests.controller;
+package ru.practicum.mainservice.requests.controller.privateC;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -8,6 +8,7 @@ import ru.practicum.mainservice.requests.mapper.RequestMapper;
 import ru.practicum.mainservice.requests.model.dto.ParticipationRequestDto;
 import ru.practicum.mainservice.requests.model.entity.Request;
 import ru.practicum.mainservice.requests.service.RequestService;
+
 import java.util.List;
 
 @Slf4j

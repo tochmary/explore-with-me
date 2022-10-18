@@ -1,4 +1,4 @@
-package ru.practicum.mainservice.event.controller;
+package ru.practicum.mainservice.event.controller.publicC;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

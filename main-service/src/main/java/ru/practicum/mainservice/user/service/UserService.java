@@ -5,7 +5,10 @@ import ru.practicum.mainservice.user.model.entity.User;
 import java.util.List;
 
 public interface UserService {
-    List<User> getUsers();
+
+    List<User> getUsers(Integer from, Integer size);
+
+    List<User> getUsers(List<Long> userIds, Integer from, Integer size);
 
     User addUser(User user);
 
@@ -14,4 +17,6 @@ public interface UserService {
     void checkUser(long userId);
 
     User getUserByUserId(long userId);
+
+    User getUser(long userId);
 }

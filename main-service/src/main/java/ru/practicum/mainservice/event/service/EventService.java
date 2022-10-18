@@ -15,7 +15,7 @@ public interface EventService {
                           Integer from,
                           Integer size);
 
-    Event updateEvent(long eventId, Event event);
+    Event updateEvent(long eventId, Event event, Boolean isValidate);
 
     Event publishEventById(long eventId);
 

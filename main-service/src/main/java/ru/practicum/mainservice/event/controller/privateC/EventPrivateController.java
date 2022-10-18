@@ -1,4 +1,4 @@
-package ru.practicum.mainservice.event.controller;
+package ru.practicum.mainservice.event.controller.privateC;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -72,7 +72,7 @@ public class EventPrivateController {
         User user = userService.getUserByUserId(userId);
         Category category = categoryService.getCategoryById(eventUpdateDto.getCategory());
         Event event = EventMapper.toEvent(eventUpdateDto, user, category);
-        event = eventService.updateEvent(eventUpdateDto.getEventId(), event);
+        event = eventService.updateEvent(eventUpdateDto.getEventId(), event, true);
         return EventMapper.toEventFullDto(event);
     }
 

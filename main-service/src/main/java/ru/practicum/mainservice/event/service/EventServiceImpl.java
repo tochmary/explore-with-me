@@ -46,11 +46,11 @@ public class EventServiceImpl implements EventService {
 
     @Override
     @Transactional
-    public Event updateEvent(long eventId, Event event) {
+    public Event updateEvent(long eventId, Event event, Boolean isValidate) {
         log.debug("Обновление события c eventId={}, данные для обновления {}", eventId, event);
         Event eventNew = getEventByEventId(eventId);
         State state = EventMapper.getStateLast(eventNew);
-        if (!(state == State.PENDING || state == State.CANCELED)) {
+        if (isValidate && (!(state == State.PENDING || state == State.CANCELED))) {
             throw new BadRequestException("Изменить можно только отмененные события или события в состоянии ожидания модерации!");
         }
         if (event.getAnnotation() != null) {

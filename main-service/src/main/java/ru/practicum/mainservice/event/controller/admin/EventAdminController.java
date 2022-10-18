@@ -1,4 +1,4 @@
-package ru.practicum.mainservice.event.controller;
+package ru.practicum.mainservice.event.controller.admin;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -77,7 +77,7 @@ public class EventAdminController {
         log.info("Обновление события {} с eventId={}", eventUpdateDto, eventId);
         Category category = categoryService.getCategoryById(eventUpdateDto.getCategory());
         Event event = EventMapper.toEvent(eventUpdateDto, eventId, category);
-        event = eventService.updateEvent(eventId, event);
+        event = eventService.updateEvent(eventId, event, false);
         return EventMapper.toEventFullDto(event);
     }
 
