@@ -8,7 +8,6 @@ import ru.practicum.mainservice.category.mapper.CategoryMapper;
 import ru.practicum.mainservice.category.model.dto.CategoryDto;
 import ru.practicum.mainservice.category.model.entity.Category;
 import ru.practicum.mainservice.category.service.CategoryService;
-import ru.practicum.mainservice.common.exception.NotFoundException;
 
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
@@ -46,12 +45,7 @@ public class CategoryController {
     @GetMapping("/{catId}")
     public CategoryDto getCategory(@PathVariable long catId) {
         log.info("Получение категории с catId={}", catId);
-        //решение, чтобы тесты все проходили (тесты “Удаление категории“, “Удаление подборки“ падают, которые не соответствуют спецификации)
-        try {
-            Category category = categoryService.getCategoryById(catId);
-            return CategoryMapper.toCategoryDto(category);
-        } catch (NotFoundException ignored) {
-            return null;
-        }
+        Category category = categoryService.getCategoryById(catId);
+        return CategoryMapper.toCategoryDto(category);
     }
 }

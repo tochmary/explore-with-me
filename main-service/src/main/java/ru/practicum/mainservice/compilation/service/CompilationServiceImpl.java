@@ -86,7 +86,7 @@ public class CompilationServiceImpl implements CompilationService {
         log.debug("Получение подборок событий:");
         log.info("pinned={}, from={}, size={}", pinned, from, size);
         PageRequest pr = PageRequest.of(from / size, size);
-        return compilationRepository.getCompilationByPinned(pinned, pr).toList();
+        return compilationRepository.findCompilationsByPinned(pinned, pr).toList();
     }
 
     @Override
