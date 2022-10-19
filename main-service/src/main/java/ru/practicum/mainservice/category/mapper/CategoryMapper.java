@@ -14,8 +14,7 @@ import static ru.practicum.mainservice.common.Utility.checkForNull;
 public class CategoryMapper {
 
     public static CategoryDto toCategoryDto(Category category) {
-        category = null;
-        checkForNull(category);
+        checkForNull(category, "category");
         return new CategoryDto(
                 category.getId(),
                 category.getName()
@@ -23,7 +22,7 @@ public class CategoryMapper {
     }
 
     public static Category toCategory(NewCategoryDto categoryDto) {
-        checkForNull(categoryDto);
+        checkForNull(categoryDto, "categoryDto");
         return new Category(
                 null,
                 categoryDto.getName()
@@ -31,7 +30,7 @@ public class CategoryMapper {
     }
 
     public static Category toCategory(CategoryDto categoryDto) {
-        checkForNull(categoryDto);
+        checkForNull(categoryDto, "categoryDto");
         return new Category(
                 categoryDto.getId(),
                 categoryDto.getName()

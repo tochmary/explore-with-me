@@ -50,7 +50,7 @@ public class EventServiceImpl implements EventService {
     @Transactional
     public Event updateEvent(long eventId, Event event, Boolean isValidate) {
         log.debug("Обновление события c eventId={}, данные для обновления {}", eventId, event);
-        checkForNull(event);
+        checkForNull(event, "event");
         Event eventNew = getEventByEventId(eventId);
         State state = EventMapper.getStateLast(eventNew);
         if (isValidate && (!(state == State.PENDING || state == State.CANCELED))) {
@@ -164,7 +164,7 @@ public class EventServiceImpl implements EventService {
     @Transactional
     public Event addEvent(Event event) {
         log.debug("Добавление события {}", event);
-        checkForNull(event);
+        checkForNull(event, "event");
         checkEventDate(event);
         Event eventNew = eventRepository.save(event);
         saveState(eventNew, State.PENDING);
@@ -211,7 +211,7 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public void checkUserForEvent(long userId, Event event) {
-        checkForNull(event);
+        checkForNull(event, "event");
         if (!Objects.equals(event.getInitiator().getId(), userId)) {
             throw new NotFoundException("У пользователя с userId=" + userId + " eventId=" + event.getId() + " не существует!");
         }

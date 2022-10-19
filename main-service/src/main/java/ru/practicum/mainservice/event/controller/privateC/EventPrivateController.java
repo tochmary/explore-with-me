@@ -71,7 +71,7 @@ public class EventPrivateController {
         log.info("Изменение события добавленного текущим пользователем:");
         log.info("id текущего пользователя: {}", userId);
         log.info("Новые данные события: {}", eventUpdateDto);
-        checkForNull(eventUpdateDto);
+        checkForNull(eventUpdateDto, "eventUpdateDto");
         User user = userService.getUserByUserId(userId);
         Category category = categoryService.getCategoryById(eventUpdateDto.getCategory());
         Event event = EventMapper.toEvent(eventUpdateDto, user, category);
@@ -95,7 +95,7 @@ public class EventPrivateController {
         log.info("Добавление нового события:");
         log.info("id текущего пользователя: {}", userId);
         log.info("Новое событие: {}", newEventDto);
-        checkForNull(newEventDto);
+        checkForNull(newEventDto, "newEventDto");
         User user = userService.getUserByUserId(userId);
         Category category = categoryService.getCategoryById(newEventDto.getCategory());
         Event event = EventMapper.toEvent(newEventDto, user, category);

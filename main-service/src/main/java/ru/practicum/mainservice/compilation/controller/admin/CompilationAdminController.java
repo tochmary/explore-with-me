@@ -12,7 +12,6 @@ import ru.practicum.mainservice.event.model.entity.Event;
 import ru.practicum.mainservice.event.service.EventService;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static ru.practicum.mainservice.common.Utility.checkForNull;
@@ -34,7 +33,7 @@ public class CompilationAdminController {
     @PostMapping
     public CompilationDto saveCompilation(@RequestBody NewCompilationDto compilationDto) {
         log.info("Добавления новой подборки {}", compilationDto);
-        checkForNull(compilationDto);
+        checkForNull(compilationDto, "compilationDto");
         List<Event> eventList = compilationDto.getEvents().stream().map(eventService::getEventByEventId).collect(Collectors.toList());
         Compilation compilation = CompilationMapper.toCompilation(compilationDto, eventList);
         compilation = compilationService.addCompilation(compilation);

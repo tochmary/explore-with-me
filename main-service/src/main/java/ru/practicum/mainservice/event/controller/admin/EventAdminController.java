@@ -18,7 +18,6 @@ import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static ru.practicum.mainservice.common.Utility.checkForNull;
@@ -78,7 +77,7 @@ public class EventAdminController {
     public EventFullDto updateEvent(@PathVariable long eventId,
                                     @RequestBody AdminUpdateEventRequest eventUpdateDto) {
         log.info("Обновление события {} с eventId={}", eventUpdateDto, eventId);
-        checkForNull(eventUpdateDto);
+        checkForNull(eventUpdateDto, "eventUpdateDto");
         Category category = categoryService.getCategoryById(eventUpdateDto.getCategory());
         Event event = EventMapper.toEvent(eventUpdateDto, eventId, category);
         event = eventService.updateEvent(eventId, event, false);

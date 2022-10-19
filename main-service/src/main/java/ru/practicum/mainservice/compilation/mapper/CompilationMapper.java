@@ -8,14 +8,13 @@ import ru.practicum.mainservice.event.model.entity.Event;
 
 import java.util.Comparator;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static ru.practicum.mainservice.common.Utility.checkForNull;
 
 public class CompilationMapper {
     public static Compilation toCompilation(NewCompilationDto compilationDto, List<Event> eventList) {
-        checkForNull(compilationDto);
+        checkForNull(compilationDto, "compilationDto");
         Compilation compilation = new Compilation();
         compilation.setEvents(eventList);
         compilation.setTitle(compilationDto.getTitle());
@@ -24,7 +23,7 @@ public class CompilationMapper {
     }
 
     public static CompilationDto toCompilationDto(Compilation compilation) {
-        checkForNull(compilation);
+        checkForNull(compilation, "compilation");
         CompilationDto compilationDto = new CompilationDto();
         compilationDto.setId(compilation.getId());
         compilationDto.setEvents(EventMapper.getEventShortDtoList(compilation.getEvents()));

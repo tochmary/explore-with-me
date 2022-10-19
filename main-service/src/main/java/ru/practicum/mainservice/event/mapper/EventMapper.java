@@ -12,7 +12,6 @@ import ru.practicum.mainservice.user.model.entity.User;
 
 import java.util.Comparator;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static ru.practicum.mainservice.common.Utility.checkForNull;
@@ -20,7 +19,7 @@ import static ru.practicum.mainservice.common.Utility.checkForNull;
 public class EventMapper {
 
     public static Event toEvent(NewEventDto newEventDto, User user, Category category) {
-        checkForNull(newEventDto);
+        checkForNull(newEventDto, "newEventDto");
         Event event = new Event();
         event.setAnnotation(newEventDto.getAnnotation());
         event.setCategory(category);
@@ -39,7 +38,7 @@ public class EventMapper {
     public static Event toEvent(UpdateEventRequest updateEvent,
                                 User user,
                                 Category category) {
-        checkForNull(updateEvent);
+        checkForNull(updateEvent, "updateEvent");
         Event event = new Event();
         event.setId(updateEvent.getEventId());
         event.setAnnotation(updateEvent.getAnnotation());
@@ -62,7 +61,7 @@ public class EventMapper {
     public static Event toEvent(AdminUpdateEventRequest eventUpdateDto,
                                 long eventId,
                                 Category category) {
-        checkForNull(eventUpdateDto);
+        checkForNull(eventUpdateDto, "eventUpdateDto");
         Event event = new Event();
         event.setId(eventId);
         event.setAnnotation(eventUpdateDto.getAnnotation());
@@ -89,7 +88,7 @@ public class EventMapper {
     }
 
     public static EventFullDto toEventFullDto(Event event) {
-        checkForNull(event);
+        checkForNull(event, "event");
         EventFullDto eventFullDto = new EventFullDto();
         eventFullDto.setId(event.getId());
         eventFullDto.setAnnotation(event.getAnnotation());
@@ -111,7 +110,7 @@ public class EventMapper {
     }
 
     public static State getStateLast(Event event) {
-        checkForNull(event);
+        checkForNull(event, "event");
         if (event.getState() != null && !event.getState().isEmpty()) {
             return event.getState().stream()
                     .max(Comparator.comparing(EventState::getId))
@@ -129,7 +128,7 @@ public class EventMapper {
     }
 
     public static EventShortDto toEventShortDto(Event event) {
-        checkForNull(event);
+        checkForNull(event, "event");
         EventShortDto eventShortDto = new EventShortDto();
         eventShortDto.setId(event.getId());
         eventShortDto.setAnnotation(event.getAnnotation());

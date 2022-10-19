@@ -125,13 +125,13 @@ public class RequestServiceImpl implements RequestService {
 
     @Override
     public boolean isParticipantLimit(Event event) {
-        checkForNull(event);
+        checkForNull(event, "event");
         return event.getParticipantLimit() != 0
                 && event.getParticipantLimit() == getRequestsByEventId(event.getId()).size();
     }
 
     private void checkUserForRequest(long userId, Request request) {
-        checkForNull(request);
+        checkForNull(request, "request");
         if (!Objects.equals(request.getRequester().getId(), userId)) {
             throw new NotFoundException("У пользователя с userId=" + userId +
                     " запроса на участие с requestId=" + request.getId() + " не существует!");
@@ -139,7 +139,7 @@ public class RequestServiceImpl implements RequestService {
     }
 
     private void checkEventForRequest(long eventId, Request request) {
-        checkForNull(request);
+        checkForNull(request, "request");
         if (!Objects.equals(request.getEvent().getId(), eventId)) {
             throw new NotFoundException("Для события с eventId=" + eventId +
                     " запроса на участие с requestId=" + request.getId() + " не существует!");

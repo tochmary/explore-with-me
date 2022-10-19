@@ -8,7 +8,7 @@ import static ru.practicum.statsservice.common.Utility.checkForNull;
 public class StatsMapper {
 
     public static EndpointHit toEndpointHit(EndpointHitDto endpointHitDto) {
-        checkForNull(endpointHitDto);
+        checkForNull(endpointHitDto, "endpointHitDto");
         return new EndpointHit(null,
                 endpointHitDto.getApp(),
                 endpointHitDto.getUri(),

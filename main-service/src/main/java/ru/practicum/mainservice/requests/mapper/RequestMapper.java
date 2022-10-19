@@ -12,7 +12,7 @@ import static ru.practicum.mainservice.common.Utility.checkForNull;
 public class RequestMapper {
 
     public static ParticipationRequestDto toRequestDto(Request request) {
-        checkForNull(request);
+        checkForNull(request, "request");
         ParticipationRequestDto requestDto = new ParticipationRequestDto();
         requestDto.setId(request.getId());
         requestDto.setEvent(request.getEvent().getId());

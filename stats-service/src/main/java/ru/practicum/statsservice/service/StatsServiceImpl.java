@@ -29,7 +29,7 @@ public class StatsServiceImpl implements StatsService {
     @Transactional
     public void save(EndpointHit endpointHit) {
         log.debug("Добавление endpointHit {}", endpointHit);
-        checkForNull(endpointHit);
+        checkForNull(endpointHit, "endpointHitDto");
         statsRepository.save(endpointHit);
     }
 

@@ -38,7 +38,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public User addUser(User user) {
         log.debug("Добавление пользователя {}", user);
-        checkForNull(user);
+        checkForNull(user, "user");
         return userRepository.save(user);
     }
 

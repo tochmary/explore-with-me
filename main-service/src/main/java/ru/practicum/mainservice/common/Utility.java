@@ -16,7 +16,7 @@ public class Utility {
                 .orElseThrow(() -> new BadRequestException("Unknown state: " + stateParam));
     }
 
-    public static <T> void checkForNull(T param) {
-        Objects.requireNonNull(param, param.toString() + "не может быть null!");
+    public static <T> void checkForNull(T param, String paramName) {
+        Objects.requireNonNull(param, paramName + " не может быть null!");
     }
 }
