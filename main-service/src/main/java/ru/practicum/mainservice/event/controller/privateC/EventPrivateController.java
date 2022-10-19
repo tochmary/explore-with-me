@@ -20,6 +20,8 @@ import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
 
+import static ru.practicum.mainservice.common.Utility.checkForNull;
+
 @Slf4j
 @Validated
 @RestController
@@ -69,6 +71,7 @@ public class EventPrivateController {
         log.info("Изменение события добавленного текущим пользователем:");
         log.info("id текущего пользователя: {}", userId);
         log.info("Новые данные события: {}", eventUpdateDto);
+        checkForNull(eventUpdateDto);
         User user = userService.getUserByUserId(userId);
         Category category = categoryService.getCategoryById(eventUpdateDto.getCategory());
         Event event = EventMapper.toEvent(eventUpdateDto, user, category);
@@ -92,6 +95,7 @@ public class EventPrivateController {
         log.info("Добавление нового события:");
         log.info("id текущего пользователя: {}", userId);
         log.info("Новое событие: {}", newEventDto);
+        checkForNull(newEventDto);
         User user = userService.getUserByUserId(userId);
         Category category = categoryService.getCategoryById(newEventDto.getCategory());
         Event event = EventMapper.toEvent(newEventDto, user, category);

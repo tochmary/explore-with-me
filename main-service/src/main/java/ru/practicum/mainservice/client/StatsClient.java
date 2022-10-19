@@ -14,6 +14,9 @@ import ru.practicum.mainservice.common.Utility;
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
+
+import static ru.practicum.mainservice.common.Utility.checkForNull;
 
 @Slf4j
 @Service
@@ -31,6 +34,7 @@ public class StatsClient extends BaseClient {
     }
 
     public void save(HttpServletRequest request) {
+        checkForNull(request);
         EndpointHitDto endpointHit = new EndpointHitDto();
         endpointHit.setApp("MainService");
         endpointHit.setUri(request.getRequestURI());

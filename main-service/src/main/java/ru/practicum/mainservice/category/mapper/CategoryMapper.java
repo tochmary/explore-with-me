@@ -6,11 +6,16 @@ import ru.practicum.mainservice.category.model.entity.Category;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
+
+import static ru.practicum.mainservice.common.Utility.checkForNull;
 
 public class CategoryMapper {
 
     public static CategoryDto toCategoryDto(Category category) {
+        category = null;
+        checkForNull(category);
         return new CategoryDto(
                 category.getId(),
                 category.getName()
@@ -18,6 +23,7 @@ public class CategoryMapper {
     }
 
     public static Category toCategory(NewCategoryDto categoryDto) {
+        checkForNull(categoryDto);
         return new Category(
                 null,
                 categoryDto.getName()
@@ -25,6 +31,7 @@ public class CategoryMapper {
     }
 
     public static Category toCategory(CategoryDto categoryDto) {
+        checkForNull(categoryDto);
         return new Category(
                 categoryDto.getId(),
                 categoryDto.getName()

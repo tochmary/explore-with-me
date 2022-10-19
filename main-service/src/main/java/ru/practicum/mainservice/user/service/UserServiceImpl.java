@@ -11,6 +11,8 @@ import ru.practicum.mainservice.user.repository.UserRepository;
 
 import java.util.List;
 
+import static ru.practicum.mainservice.common.Utility.checkForNull;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -36,6 +38,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public User addUser(User user) {
         log.debug("Добавление пользователя {}", user);
+        checkForNull(user);
         return userRepository.save(user);
     }
 

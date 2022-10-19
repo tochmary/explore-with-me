@@ -7,9 +7,12 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static ru.practicum.mainservice.common.Utility.checkForNull;
+
 public class RequestMapper {
 
     public static ParticipationRequestDto toRequestDto(Request request) {
+        checkForNull(request);
         ParticipationRequestDto requestDto = new ParticipationRequestDto();
         requestDto.setId(request.getId());
         requestDto.setEvent(request.getEvent().getId());

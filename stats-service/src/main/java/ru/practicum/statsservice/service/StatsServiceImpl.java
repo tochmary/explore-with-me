@@ -10,6 +10,8 @@ import ru.practicum.statsservice.repository.StatsRepository;
 
 import java.util.List;
 
+import static ru.practicum.statsservice.common.Utility.checkForNull;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -27,6 +29,7 @@ public class StatsServiceImpl implements StatsService {
     @Transactional
     public void save(EndpointHit endpointHit) {
         log.debug("Добавление endpointHit {}", endpointHit);
+        checkForNull(endpointHit);
         statsRepository.save(endpointHit);
     }
 

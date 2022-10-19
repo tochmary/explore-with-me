@@ -19,6 +19,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
+import static ru.practicum.mainservice.common.Utility.checkForNull;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -48,6 +50,7 @@ public class EventServiceImpl implements EventService {
     @Transactional
     public Event updateEvent(long eventId, Event event, Boolean isValidate) {
         log.debug("Обновление события c eventId={}, данные для обновления {}", eventId, event);
+        checkForNull(event);
         Event eventNew = getEventByEventId(eventId);
         State state = EventMapper.getStateLast(eventNew);
         if (isValidate && (!(state == State.PENDING || state == State.CANCELED))) {
@@ -142,11 +145,6 @@ public class EventServiceImpl implements EventService {
     @Override
     public Event getEventById(long id) {
         log.debug("Получение события с id={}", id);
-        /*
-         * событие должно быть опубликовано
-         * информация о событии должна включать в себя количество просмотров и количество подтвержденных запросов
-         * информацию о том, что по этому эндпоинту был осуществлен и обработан запрос, нужно сохранить в сервисе статистики
-         */
         Event event = getEventByEventId(id);
         if (EventMapper.getStateLast(event) != State.PUBLISHED) {
             throw new BadRequestException("Событие должно быть опубликовано");
@@ -166,6 +164,7 @@ public class EventServiceImpl implements EventService {
     @Transactional
     public Event addEvent(Event event) {
         log.debug("Добавление события {}", event);
+        checkForNull(event);
         checkEventDate(event);
         Event eventNew = eventRepository.save(event);
         saveState(eventNew, State.PENDING);
@@ -212,6 +211,7 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public void checkUserForEvent(long userId, Event event) {
+        checkForNull(event);
         if (!Objects.equals(event.getInitiator().getId(), userId)) {
             throw new NotFoundException("У пользователя с userId=" + userId + " eventId=" + event.getId() + " не существует!");
         }

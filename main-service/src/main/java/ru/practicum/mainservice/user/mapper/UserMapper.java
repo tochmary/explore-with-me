@@ -9,9 +9,12 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static ru.practicum.mainservice.common.Utility.checkForNull;
+
 public class UserMapper {
 
     public static UserDto toUserDto(User user) {
+        checkForNull(user);
         return new UserDto(
                 user.getId(),
                 user.getName(),
@@ -20,6 +23,7 @@ public class UserMapper {
     }
 
     public static User toUser(NewUserRequest userDto) {
+        checkForNull(userDto);
         return new User(
                 null,
                 userDto.getName(),
@@ -28,6 +32,7 @@ public class UserMapper {
     }
 
     public static User toUser(UserDto userDto) {
+        checkForNull(userDto);
         return new User(
                 userDto.getId(),
                 userDto.getName(),
@@ -43,6 +48,7 @@ public class UserMapper {
     }
 
     public static UserShortDto toUserShortDto(User user) {
+        checkForNull(user);
         return new UserShortDto(
                 user.getId(),
                 user.getName()

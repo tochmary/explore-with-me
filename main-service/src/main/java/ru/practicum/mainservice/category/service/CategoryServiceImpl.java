@@ -12,6 +12,9 @@ import ru.practicum.mainservice.common.exception.NotFoundException;
 import ru.practicum.mainservice.event.service.EventService;
 
 import java.util.List;
+import java.util.Objects;
+
+import static ru.practicum.mainservice.common.Utility.checkForNull;
 
 @Slf4j
 @Service
@@ -44,6 +47,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     @Transactional
     public Category updateCategory(Category category) {
+        checkForNull(category);
         Long catId = category.getId();
         log.debug("Обновление категории {} с catId={}", category, catId);
         Category categoryNew = getCategoryByCatId(catId);
