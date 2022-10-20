@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * id — уникальный идентификатор пользователя;
@@ -27,4 +28,18 @@ public class User {
 
     @Column
     private String email;
+
+    @ManyToMany
+    @JoinTable(name = "user_followings",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "following_id"))
+    private List<User> followings;
+
+    public void addFollowing(User following) {
+        followings.add(following);
+    }
+
+    public void deleteFollowing(User following) {
+        followings.remove(following);
+    }
 }

@@ -30,11 +30,11 @@ public class UserAdminController {
      * @return List<UserDto> список пользователей
      */
     @GetMapping
-    public List<UserDto> getUsers(@RequestParam List<Long> ids,
+    public List<UserDto> getUsers(@RequestParam(required = false) List<Long> ids,
                                   @PositiveOrZero @RequestParam(defaultValue = "0") Integer from,
                                   @Positive @RequestParam(defaultValue = "10") Integer size) {
         List<User> userList;
-        if (ids.isEmpty()) {
+        if (ids == null) {
             log.info("Получение списка пользователей");
             userList = userService.getUsers(from, size);
         } else {

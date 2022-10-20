@@ -15,29 +15,22 @@ public class UserMapper {
 
     public static UserDto toUserDto(User user) {
         checkForNull(user, "user");
-        return new UserDto(
-                user.getId(),
-                user.getName(),
-                user.getEmail()
-        );
+        UserDto userDto = new UserDto();
+        userDto.setId(user.getId());
+        userDto.setName(user.getName());
+        userDto.setEmail(user.getEmail());
+        if (user.getFollowings() != null) {
+            userDto.setFollowings(getUserShortDtoList(user.getFollowings()));
+        }
+        return userDto;
     }
 
     public static User toUser(NewUserRequest userDto) {
         checkForNull(userDto, "userDto");
-        return new User(
-                null,
-                userDto.getName(),
-                userDto.getEmail()
-        );
-    }
-
-    public static User toUser(UserDto userDto) {
-        checkForNull(userDto, "userDto");
-        return new User(
-                userDto.getId(),
-                userDto.getName(),
-                userDto.getEmail()
-        );
+        User user = new User();
+        user.setName(userDto.getName());
+        user.setEmail(userDto.getEmail());
+        return user;
     }
 
     public static List<UserDto> getUserDtoList(List<User> userList) {
@@ -53,5 +46,12 @@ public class UserMapper {
                 user.getId(),
                 user.getName()
         );
+    }
+
+    public static List<UserShortDto> getUserShortDtoList(List<User> userList) {
+        return userList.stream()
+                .map(UserMapper::toUserShortDto)
+                .sorted(Comparator.comparing(UserShortDto::getId))
+                .collect(Collectors.toList());
     }
 }

@@ -3,9 +3,11 @@ package ru.practicum.mainservice.user.model.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.practicum.mainservice.user.model.entity.User;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 /**
  * Пользователь:
@@ -23,4 +25,5 @@ public class UserDto {
     @Email
     @NotBlank
     private String email;
+    private List<UserShortDto> followings;
 }

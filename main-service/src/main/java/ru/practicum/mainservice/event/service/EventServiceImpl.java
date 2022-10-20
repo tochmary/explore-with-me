@@ -222,6 +222,14 @@ public class EventServiceImpl implements EventService {
         return eventRepository.getEventsByCategoryId(catId);
     }
 
+    @Override
+    public List<Event> getEventsByUsers(List<Long> userIds, Integer from, Integer size) {
+        log.debug("Получение списка событий, добавленных текущими пользователями:");
+        log.info("userIds={}, from={}, size={}", userIds, from, size);
+        PageRequest pr = PageRequest.of(from / size, size);
+        return eventRepository.getEventsByInitiatorIdIn(userIds, pr).toList();
+    }
+
     private void checkEventDate(Event event) {
         if (event.getEventDate().isBefore(LocalDateTime.now().plusHours(2))) {
             throw new BadRequestException("Дата и время на которые намечено событие (" + event.getEventDate() + ") не может быть раньше, " +

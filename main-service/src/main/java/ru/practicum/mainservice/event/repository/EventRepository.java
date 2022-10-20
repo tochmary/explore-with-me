@@ -47,7 +47,9 @@ public interface EventRepository extends JpaRepository<Event, Long> {
                           @Param("state") State state,
                           Pageable pageable);
 
-    Page<Event> getEventsByInitiatorId(@Param("userID") long userID, Pageable pageable);
+    Page<Event> getEventsByInitiatorId(long userID, Pageable pageable);
 
     List<Event> getEventsByCategoryId(long catID);
+
+    Page<Event> getEventsByInitiatorIdIn(List<Long> userIDs, Pageable pageable);
 }
