@@ -77,7 +77,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void addFollowing(long userId, long followingId) {
-        log.info("Подписаться пользователю с userId={} на пользователя с userId={}", userId, followingId);
+        log.debug("Подписаться пользователю с userId={} на пользователя с userId={}", userId, followingId);
         User user = getUserByUserId(userId);
         User following = getUserByUserId(followingId);
         user.addFollowing(following);
@@ -88,7 +88,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void removeFollowing(long userId, long followingId) {
-        log.info("Отменить подписку пользователю с userId={} на пользователя с userId={}", userId, followingId);
+        log.debug("Отменить подписку пользователю с userId={} на пользователя с userId={}", userId, followingId);
         User user = getUserByUserId(userId);
         User following = getUserByUserId(followingId);
         user.deleteFollowing(following);
@@ -98,7 +98,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<Event> getEventsFollows(long userId, Integer from, Integer size) {
-        log.info("Получение списка актуальных событий, опубликованных пользователями, " +
+        log.debug("Получение списка актуальных событий, опубликованных пользователями, " +
                 "на которых подписан текущий пользователь с userId={} (from={}, size={})", userId, from, size);
         User user = getUserByUserId(userId);
         List<Long> followingIdList = user.getFollowings().stream()

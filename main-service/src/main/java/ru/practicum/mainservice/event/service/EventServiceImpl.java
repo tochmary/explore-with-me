@@ -39,7 +39,7 @@ public class EventServiceImpl implements EventService {
                                  Integer from,
                                  Integer size) {
         log.debug("Получение списка событий:");
-        log.info("users={}, states={}, categories={}, rangeStart={}, rangeEnd={}, from={}, size={}",
+        log.debug("users={}, states={}, categories={}, rangeStart={}, rangeEnd={}, from={}, size={}",
                 users, states, categories, rangeStart, rangeEnd, from, size);
         PageRequest pr = PageRequest.of(from / size, size);
         return eventRepository.getEvents(users, states,
@@ -96,7 +96,7 @@ public class EventServiceImpl implements EventService {
     @Override
     @Transactional
     public Event publishEventById(long eventId) {
-        log.info("Публикация события с eventId={}", eventId);
+        log.debug("Публикация события с eventId={}", eventId);
         Event event = getEventByEventId(eventId);
         if (EventMapper.getStateLast(event) != State.PENDING) {
             throw new BadRequestException("Событие должно быть в состоянии ожидания публикации!");
@@ -115,7 +115,7 @@ public class EventServiceImpl implements EventService {
     @Override
     @Transactional
     public Event rejectEventById(long eventId) {
-        log.info("Отклонение события с eventId={}", eventId);
+        log.debug("Отклонение события с eventId={}", eventId);
         Event event = getEventByEventId(eventId);
         if (EventMapper.getStateLast(event) == State.PUBLISHED) {
             throw new BadRequestException("Событие не должно быть опубликовано!");
@@ -135,7 +135,7 @@ public class EventServiceImpl implements EventService {
                                  Integer from,
                                  Integer size) {
         log.debug("Получение списка событий с возможностью фильтрации:");
-        log.info("text={}, categories={}, states={}, rangeStart={}, rangeEnd={}, state={}, from={}, size={}",
+        log.debug("text={}, categories={}, states={}, rangeStart={}, rangeEnd={}, state={}, from={}, size={}",
                 text, categories, paid, rangeStart, rangeEnd, state, from, size);
         PageRequest pr = PageRequest.of(from / size, size);
         return eventRepository.getEvents(text, categories, paid, rangeStart, rangeEnd,
@@ -155,7 +155,7 @@ public class EventServiceImpl implements EventService {
     @Override
     public List<Event> getEvents(long userId, Integer from, Integer size) {
         log.debug("Получение списка событий, добавленных текущим пользователем:");
-        log.info("userId={}, from={}, size={}", userId, from, size);
+        log.debug("userId={}, from={}, size={}", userId, from, size);
         PageRequest pr = PageRequest.of(from / size, size);
         return eventRepository.getEventsByInitiatorId(userId, pr).toList();
     }
@@ -225,9 +225,9 @@ public class EventServiceImpl implements EventService {
     @Override
     public List<Event> getEventsByUsers(List<Long> userIds, Integer from, Integer size) {
         log.debug("Получение списка событий, добавленных текущими пользователями:");
-        log.info("userIds={}, from={}, size={}", userIds, from, size);
+        log.debug("userIds={}, from={}, size={}", userIds, from, size);
         PageRequest pr = PageRequest.of(from / size, size);
-        return eventRepository.getEventsByInitiatorIdIn(userIds, pr).toList();
+        return eventRepository.getEventsByInitiatorIdInAndPublishedOnIsNotNull(userIds, pr).toList();
     }
 
     private void checkEventDate(Event event) {

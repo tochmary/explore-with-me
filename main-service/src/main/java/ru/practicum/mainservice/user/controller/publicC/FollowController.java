@@ -16,7 +16,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/users/{userId}/follows")
-public class UserController {
+public class FollowController {
     private final UserService userService;
 
     /**
@@ -25,7 +25,7 @@ public class UserController {
      * @param userId      id пользователя
      * @param followingId id подписки (на которого подписывается текущий пользователь)
      */
-    @PatchMapping("/{followingId}")
+    @PostMapping("/{followingId}")
     public void addFollowing(@PathVariable long userId,
                              @PathVariable long followingId) {
         log.info("Подписаться пользователю с userId={} на пользователя с userId={}", userId, followingId);
