@@ -46,5 +46,5 @@ public interface EventService {
 
     List<Event> getEventsByCatId(long catId);
 
-    List<Event> getEventsByUsers(List<Long> userIds, Integer from, Integer size);
+    List<Event> getEventsByUsers(List<Long> userIds, LocalDateTime eventDate, Integer from, Integer size);
 }

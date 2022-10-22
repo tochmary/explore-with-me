@@ -42,7 +42,7 @@ public class EventPrivateController {
      */
     @GetMapping
     public List<EventShortDto> getEvents(
-            @PathVariable Integer userId,
+            @Positive @PathVariable Integer userId,
             @PositiveOrZero @RequestParam(defaultValue = "0") Integer from,
             @Positive @RequestParam(defaultValue = "10") Integer size) {
         log.info("Получение событий, добавленных текущим пользователем:");
@@ -65,7 +65,7 @@ public class EventPrivateController {
      */
     @PatchMapping
     public EventFullDto updateEvent(
-            @PathVariable long userId,
+            @Positive @PathVariable long userId,
             @RequestBody UpdateEventRequest eventUpdateDto
     ) {
         log.info("Изменение события добавленного текущим пользователем:");
@@ -89,7 +89,7 @@ public class EventPrivateController {
      */
     @PostMapping
     public EventFullDto addEvent(
-            @PathVariable long userId,
+            @Positive @PathVariable long userId,
             @RequestBody NewEventDto newEventDto
     ) {
         log.info("Добавление нового события:");
@@ -112,8 +112,8 @@ public class EventPrivateController {
      */
     @GetMapping("/{eventId}")
     public EventFullDto getEvent(
-            @PathVariable Long userId,
-            @PathVariable Long eventId) {
+            @Positive @PathVariable Long userId,
+            @Positive @PathVariable Long eventId) {
         log.info("Получение полной информации о событии добавленном текущим пользователем:");
         log.info("id текущего пользователя: {}", userId);
         log.info("id события: {}", eventId);
@@ -131,8 +131,8 @@ public class EventPrivateController {
      */
     @PatchMapping("/{eventId}")
     public EventFullDto cancelEvent(
-            @PathVariable Long userId,
-            @PathVariable Long eventId) {
+            @Positive @PathVariable Long userId,
+            @Positive @PathVariable Long eventId) {
         log.info("Отмена события добавленного текущим пользователем:");
         log.info("id текущего пользователя: {}", userId);
         log.info("id отменяемого события: {}", eventId);

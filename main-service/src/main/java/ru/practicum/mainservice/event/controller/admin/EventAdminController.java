@@ -2,6 +2,7 @@ package ru.practicum.mainservice.event.controller.admin;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.mainservice.category.model.entity.Category;
 import ru.practicum.mainservice.category.service.CategoryService;
@@ -23,6 +24,7 @@ import java.util.stream.Collectors;
 import static ru.practicum.mainservice.common.Utility.checkForNull;
 
 @Slf4j
+@Validated
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/admin/events")
@@ -74,7 +76,7 @@ public class EventAdminController {
      * @return EventFullDto Полная информация о событии
      */
     @PutMapping("/{eventId}")
-    public EventFullDto updateEvent(@PathVariable long eventId,
+    public EventFullDto updateEvent(@Positive @PathVariable long eventId,
                                     @RequestBody AdminUpdateEventRequest eventUpdateDto) {
         log.info("Обновление события {} с eventId={}", eventUpdateDto, eventId);
         checkForNull(eventUpdateDto, "eventUpdateDto");
@@ -93,7 +95,7 @@ public class EventAdminController {
      * @return EventFullDto Полная информация о событии
      */
     @PatchMapping("/{eventId}/publish")
-    public EventFullDto publishEvent(@PathVariable long eventId) {
+    public EventFullDto publishEvent(@Positive @PathVariable long eventId) {
         log.info("Публикация события с eventId={}", eventId);
         Event event = eventService.publishEventById(eventId);
         return EventMapper.toEventFullDto(event);
@@ -107,7 +109,7 @@ public class EventAdminController {
      * @return EventFullDto Полная информация о событии
      */
     @PatchMapping("/{eventId}/reject")
-    public EventFullDto rejectEvent(@PathVariable long eventId) {
+    public EventFullDto rejectEvent(@Positive @PathVariable long eventId) {
         log.info("Отклонение события с eventId={}", eventId);
         Event event = eventService.rejectEventById(eventId);
         return EventMapper.toEventFullDto(event);

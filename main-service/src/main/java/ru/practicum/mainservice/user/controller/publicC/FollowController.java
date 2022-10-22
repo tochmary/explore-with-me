@@ -2,6 +2,7 @@ package ru.practicum.mainservice.user.controller.publicC;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.mainservice.event.mapper.EventMapper;
 import ru.practicum.mainservice.event.model.dto.EventShortDto;
@@ -13,6 +14,7 @@ import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
 
 @Slf4j
+@Validated
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/users/{userId}/follows")
@@ -26,8 +28,8 @@ public class FollowController {
      * @param followingId id подписки (на которого подписывается текущий пользователь)
      */
     @PostMapping("/{followingId}")
-    public void addFollowing(@PathVariable long userId,
-                             @PathVariable long followingId) {
+    public void addFollowing(@Positive @PathVariable long userId,
+                             @Positive @PathVariable long followingId) {
         log.info("Подписаться пользователю с userId={} на пользователя с userId={}", userId, followingId);
         userService.addFollowing(userId, followingId);
     }
@@ -39,8 +41,8 @@ public class FollowController {
      * @param followingId id подписки (на которого отподписывается текущий пользователь)
      */
     @DeleteMapping("/{followingId}")
-    public void removeFollowing(@PathVariable long userId,
-                                @PathVariable long followingId) {
+    public void removeFollowing(@Positive @PathVariable long userId,
+                                @Positive @PathVariable long followingId) {
         log.info("Отменить подписку пользователю с userId={} на пользователя с userId={}", userId, followingId);
         userService.removeFollowing(userId, followingId);
     }
@@ -55,7 +57,7 @@ public class FollowController {
      * @return List<UserDto> список пользователей
      */
     @GetMapping("/events")
-    public List<EventShortDto> getEventsFollows(@PathVariable long userId,
+    public List<EventShortDto> getEventsFollows(@Positive @PathVariable long userId,
                                                 @PositiveOrZero @RequestParam(defaultValue = "0") Integer from,
                                                 @Positive @RequestParam(defaultValue = "10") Integer size) {
         log.info("Получение списка актуальных событий, опубликованных пользователями, " +

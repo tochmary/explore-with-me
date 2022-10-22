@@ -223,11 +223,11 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public List<Event> getEventsByUsers(List<Long> userIds, Integer from, Integer size) {
+    public List<Event> getEventsByUsers(List<Long> userIds, LocalDateTime eventDate, Integer from, Integer size) {
         log.debug("Получение списка событий, добавленных текущими пользователями:");
         log.debug("userIds={}, from={}, size={}", userIds, from, size);
         PageRequest pr = PageRequest.of(from / size, size);
-        return eventRepository.getEventsByInitiatorIdInAndPublishedOnIsNotNull(userIds, pr).toList();
+        return eventRepository.getEventsByInitiatorIdInAndPublishedOnIsNotNullAndEventDateAfter(userIds, eventDate, pr).toList();
     }
 
     private void checkEventDate(Event event) {

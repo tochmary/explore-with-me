@@ -111,7 +111,7 @@ class UserServiceImplTest {
         Event event2 = new Event();
         event1.setId(2L);
         List<Event> sourceEvents = List.of(event1, event2);
-        Mockito.when(mockEventService.getEventsByUsers(any(), any(), any())).thenReturn(sourceEvents);
+        Mockito.when(mockEventService.getEventsByUsers(any(), any(), any(), any())).thenReturn(sourceEvents);
 
         Mockito
                 .when(mockUserRepository.findById(userId3))

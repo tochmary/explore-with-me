@@ -12,6 +12,7 @@ import ru.practicum.mainservice.user.model.entity.User;
 import ru.practicum.mainservice.user.repository.UserRepository;
 
 import javax.persistence.EntityManager;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -104,6 +105,6 @@ public class UserServiceImpl implements UserService {
         List<Long> followingIdList = user.getFollowings().stream()
                 .map(User::getId)
                 .collect(Collectors.toList());
-        return eventService.getEventsByUsers(followingIdList, from, size);
+        return eventService.getEventsByUsers(followingIdList, LocalDateTime.now(), from, size);
     }
 }
