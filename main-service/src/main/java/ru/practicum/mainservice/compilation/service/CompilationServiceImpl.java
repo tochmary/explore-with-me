@@ -40,51 +40,51 @@ public class CompilationServiceImpl implements CompilationService {
     @Override
     @Transactional
     public void pinCompilation(long compId) {
-        log.info("Закрепить подборку на главной странице с compId={}", compId);
+        log.debug("Закрепить подборку на главной странице с compId={}", compId);
         Compilation compilation = getCompilationByCompId(compId);
         compilation.setPinned(true);
         compilationRepository.save(compilation);
-        log.info("Подборка закреплена");
+        log.debug("Подборка закреплена");
     }
 
     @Override
     @Transactional
     public void unPinCompilation(long compId) {
-        log.info("Открепить подборку на главной странице с compId={}", compId);
+        log.debug("Открепить подборку на главной странице с compId={}", compId);
         Compilation compilation = getCompilationByCompId(compId);
         compilation.setPinned(false);
         compilationRepository.save(compilation);
-        log.info("Подборка откреплена");
+        log.debug("Подборка откреплена");
     }
 
     @Override
     @Transactional
     public void addEventToCompilation(long compId, long eventId) {
-        log.info("Добавить событие с eventId={} из подборки с compId={}", eventId, compId);
+        log.debug("Добавить событие с eventId={} из подборки с compId={}", eventId, compId);
         Compilation compilation = getCompilationByCompId(compId);
         Event event = eventService.getEventByEventId(eventId);
         compilation.addEvent(event);
         entityManager.detach(compilation);
         compilationRepository.save(compilation);
-        log.info("Событие добавлено в подборку");
+        log.debug("Событие добавлено в подборку");
     }
 
     @Override
     @Transactional
     public void removeEventFromCompilation(long compId, long eventId) {
-        log.info("Удалить событие с eventId={} из подборки с compId={}", eventId, compId);
+        log.debug("Удалить событие с eventId={} из подборки с compId={}", eventId, compId);
         Compilation compilation = getCompilationByCompId(compId);
         Event event = eventService.getEventByEventId(eventId);
         compilation.deleteEvent(event);
         entityManager.detach(compilation);
         compilationRepository.save(compilation);
-        log.info("Событие удалено из подборки");
+        log.debug("Событие удалено из подборки");
     }
 
     @Override
     public List<Compilation> getCompilations(Boolean pinned, Integer from, Integer size) {
         log.debug("Получение подборок событий:");
-        log.info("pinned={}, from={}, size={}", pinned, from, size);
+        log.debug("pinned={}, from={}, size={}", pinned, from, size);
         PageRequest pr = PageRequest.of(from / size, size);
         return compilationRepository.findCompilationsByPinned(pinned, pr).toList();
     }

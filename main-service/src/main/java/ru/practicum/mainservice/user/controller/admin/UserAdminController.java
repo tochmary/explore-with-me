@@ -2,6 +2,7 @@ package ru.practicum.mainservice.user.controller.admin;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.mainservice.user.mapper.UserMapper;
 import ru.practicum.mainservice.user.model.dto.NewUserRequest;
@@ -14,6 +15,7 @@ import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
 
 @Slf4j
+@Validated
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/admin/users")
@@ -30,11 +32,11 @@ public class UserAdminController {
      * @return List<UserDto> список пользователей
      */
     @GetMapping
-    public List<UserDto> getUsers(@RequestParam List<Long> ids,
+    public List<UserDto> getUsers(@RequestParam(required = false) List<Long> ids,
                                   @PositiveOrZero @RequestParam(defaultValue = "0") Integer from,
                                   @Positive @RequestParam(defaultValue = "10") Integer size) {
         List<User> userList;
-        if (ids.isEmpty()) {
+        if (ids == null) {
             log.info("Получение списка пользователей");
             userList = userService.getUsers(from, size);
         } else {
@@ -64,7 +66,7 @@ public class UserAdminController {
      * @param userId id пользователя
      */
     @DeleteMapping("/{userId}")
-    public void deleteUser(@PathVariable long userId) {
+    public void deleteUser(@Positive @PathVariable long userId) {
         log.info("Удаление пользователя с userId={}", userId);
         userService.deleteUser(userId);
     }

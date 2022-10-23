@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS categories, requests, compilation_events, event_states, events, users, compilations;
+DROP TABLE IF EXISTS categories, requests, compilation_events, event_states, events, user_followings, users, compilations;
 
 --Таблица категорий
 /**
@@ -126,4 +126,14 @@ CREATE TABLE IF NOT EXISTS compilation_events
     constraint compilation_events_PK primary key (comp_id, event_id),
     constraint compilation_events_comp_id_FK foreign key (comp_id) references compilations,
     constraint compilation_events_event_id_FK foreign key (event_id) references events
+    );
+
+--Таблица связей пользователя с подписками
+CREATE TABLE IF NOT EXISTS user_followings
+(
+    user_id  BIGINT,
+    following_id BIGINT,
+    constraint user_followings_PK primary key (user_id, following_id),
+    constraint compilation_events_user_id_FK foreign key (user_id) references users,
+    constraint compilation_events_following_id_FK foreign key (following_id) references users
     );

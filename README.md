@@ -35,6 +35,7 @@ SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/ewm;POSTGRES_USER=user;PO
 5. [ requests ](#requests)
 6. [ compilations ](#compilations)
 7. [ compilation_events ](#compilation_events)
+8. [ user_followings ](#user_followings)
 
 #### Таблицы сервиса stats-service
 1. [ stats ](#stats)
@@ -101,6 +102,11 @@ SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/ewm;POSTGRES_USER=user;PO
     comp_id - Идентификатор подборки
     event_id - Идентификатор события
 
+<a name="user_followings"></a>
+##### user_followings
+    Таблица связей пользователя с подписками:
+    user_id - Идентификатор пользователя
+    following_id - Идентификатор подписки
 
 <a name="stats"></a>
 ##### stats

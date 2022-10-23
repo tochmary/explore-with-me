@@ -9,6 +9,7 @@ import ru.practicum.mainservice.requests.model.dto.ParticipationRequestDto;
 import ru.practicum.mainservice.requests.model.entity.Request;
 import ru.practicum.mainservice.requests.service.RequestService;
 
+import javax.validation.constraints.Positive;
 import java.util.List;
 
 @Slf4j
@@ -28,8 +29,8 @@ public class RequestPrivateController {
      */
     @GetMapping("/events/{eventId}/requests")
     public List<ParticipationRequestDto> getEventParticipants(
-            @PathVariable long userId,
-            @PathVariable long eventId) {
+            @Positive @PathVariable long userId,
+            @Positive @PathVariable long eventId) {
         log.info("Получение информации о запросах на участие в событии текущего пользователя:");
         log.info("id текущего пользователя: {}", userId);
         log.info("id события: {}", eventId);
@@ -47,9 +48,9 @@ public class RequestPrivateController {
      */
     @PatchMapping("/events/{eventId}/requests/{reqId}/confirm")
     public ParticipationRequestDto confirmParticipationRequest(
-            @PathVariable long userId,
-            @PathVariable long eventId,
-            @PathVariable long reqId) {
+            @Positive @PathVariable long userId,
+            @Positive @PathVariable long eventId,
+            @Positive @PathVariable long reqId) {
         log.info("Подтверждение чужой заявки на участие в событии текущего пользователя:");
         log.info("id текущего пользователя: {}", userId);
         log.info("id события текущего пользователя: {}", eventId);
@@ -68,9 +69,9 @@ public class RequestPrivateController {
      */
     @PatchMapping("/events/{eventId}/requests/{reqId}/reject")
     public ParticipationRequestDto cancelParticipationRequest(
-            @PathVariable long userId,
-            @PathVariable long eventId,
-            @PathVariable long reqId) {
+            @Positive @PathVariable long userId,
+            @Positive @PathVariable long eventId,
+            @Positive @PathVariable long reqId) {
         log.info("Отклонение чужой заявки на участие в событии текущего пользователя:");
         log.info("id текущего пользователя: {}", userId);
         log.info("id события текущего пользователя: {}", eventId);
@@ -87,7 +88,7 @@ public class RequestPrivateController {
      */
     @GetMapping("/requests")
     public List<ParticipationRequestDto> getUserRequests(
-            @PathVariable long userId) {
+            @Positive @PathVariable long userId) {
         log.info("Получение информации о заявках текущего пользователя на участие в чужих событиях:");
         log.info("id текущего пользователя: {}", userId);
         List<Request> requestList = requestService.getUserRequests(userId);
@@ -108,8 +109,8 @@ public class RequestPrivateController {
      */
     @PostMapping("/requests")
     public ParticipationRequestDto addParticipationRequest(
-            @PathVariable long userId,
-            @RequestParam long eventId) {
+            @Positive @PathVariable long userId,
+            @Positive @RequestParam long eventId) {
         log.info("Добавление запроса от текущего пользователя на участие в событии:");
         log.info("id текущего пользователя: {}", userId);
         log.info("id события: {}", eventId);

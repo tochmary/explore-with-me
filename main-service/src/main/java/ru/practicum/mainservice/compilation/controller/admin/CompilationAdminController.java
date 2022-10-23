@@ -2,6 +2,7 @@ package ru.practicum.mainservice.compilation.controller.admin;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.mainservice.compilation.mapper.CompilationMapper;
 import ru.practicum.mainservice.compilation.model.dto.CompilationDto;
@@ -11,12 +12,14 @@ import ru.practicum.mainservice.compilation.service.CompilationService;
 import ru.practicum.mainservice.event.model.entity.Event;
 import ru.practicum.mainservice.event.service.EventService;
 
+import javax.validation.constraints.Positive;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static ru.practicum.mainservice.common.Utility.checkForNull;
 
 @Slf4j
+@Validated
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/admin/compilations")
@@ -46,7 +49,7 @@ public class CompilationAdminController {
      * @param compId id подборки
      */
     @DeleteMapping("/{compId}")
-    public void deleteCompilation(@PathVariable long compId) {
+    public void deleteCompilation(@Positive @PathVariable long compId) {
         log.info("Удаление подборки с compId={}", compId);
         compilationService.deleteCompilation(compId);
     }
@@ -57,7 +60,7 @@ public class CompilationAdminController {
      * @param compId id подборки
      */
     @PatchMapping("/{compId}/pin")
-    public void pinCompilation(@PathVariable long compId) {
+    public void pinCompilation(@Positive @PathVariable long compId) {
         log.info("Закрепить подборку на главной странице с compId={}", compId);
         compilationService.pinCompilation(compId);
     }
@@ -68,7 +71,7 @@ public class CompilationAdminController {
      * @param compId id подборки
      */
     @DeleteMapping("/{compId}/pin")
-    public void unPinCompilation(@PathVariable long compId) {
+    public void unPinCompilation(@Positive @PathVariable long compId) {
         log.info("Открепить подборку на главной странице с compId={}", compId);
         compilationService.unPinCompilation(compId);
     }
@@ -80,8 +83,8 @@ public class CompilationAdminController {
      * @param eventId id события
      */
     @PatchMapping("/{compId}/events/{eventId}")
-    public void addEventToCompilation(@PathVariable long compId,
-                                      @PathVariable long eventId) {
+    public void addEventToCompilation(@Positive @PathVariable long compId,
+                                      @Positive @PathVariable long eventId) {
         log.info("Добавить событие с eventId={} из подборки с compId={}", eventId, compId);
         compilationService.addEventToCompilation(compId, eventId);
     }

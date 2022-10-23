@@ -106,7 +106,7 @@ public class EventController {
      * @return EventFullDto Полная информация о событии
      */
     @GetMapping("/{id}")
-    public EventFullDto getEventById(@PathVariable long id,
+    public EventFullDto getEventById(@Positive @PathVariable long id,
                                      HttpServletRequest request) {
         log.info("Получение подробной информации об опубликованном событии по его идентификатору с id={}", id);
         Event event = eventService.getEventById(id);
